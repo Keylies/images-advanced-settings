@@ -1,0 +1,24 @@
+v1
+    Design
+    Ajouter actions et tester hooks
+    Ajouter un loader
+    Factoriser
+    Commentaires
+    Readme
+    Traductions FR
+
+v1.1
+    Image d'exemple pour montrer les positions de crop
+    Regeneration
+        Toutes les images liées à un tel type de post
+        Image par image dans média
+        Bouton STOP
+
+NEXT
+    Featured image
+        Defaut
+        Url
+    Optimisation d'images
+        Optimisation à l'upload
+        Lazy load
+
