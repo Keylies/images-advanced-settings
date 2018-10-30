@@ -2,6 +2,10 @@
     display: none;
 }
 
+.tab {
+    margin-bottom: 0;
+}
+
 .crop-position {
     display: none;
 }

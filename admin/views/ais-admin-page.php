@@ -1,14 +1,17 @@
 <div class="wrap ais">
     <h1><?php echo get_admin_page_title(); ?></h1>
 
-    <ul class="tabs" role="tablist">
-        <?php $i = 0; foreach ( $sections as $section_key => $section_title ) : ?>
+    <ul class="tabs nav-tab-wrapper" role="tablist">
+        <?php $i = 0; foreach ( $sections as $section_key => $section_title ) : 
+            $first_tab = $i === 0;
+        ?>
             <li class="tab" role="presentation">
                 <a 
+                    class="<?php echo $first_tab ? 'nav-tab nav-tab-active' : 'nav-tab'; ?>"
                     role="tab" 
                     href="#<?php echo $section_key; ?>" 
                     aria-controls="<?php echo $section_key; ?>" 
-                    <?php echo $i === 0 ? ' aria-selected="true"' : ' tabindex="-1"'; ?>
+                    <?php echo $first_tab ? ' aria-selected="true"' : ' tabindex="-1"'; ?>
                 >
                     <?php echo $section_title; ?>
                 </a>

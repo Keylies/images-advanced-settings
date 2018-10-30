@@ -192,6 +192,33 @@ class AIS_Admin_Attachments {
 	}
 
 	/**
+	 * Create attachment files from configured sizes
+	 *
+     * @param int $attachment_id Attachment ID
+	 * @param string $image_path Attachment server path
+	 * @param string $dirname Attachment upload directory server path
+	 * @return array
+	 */
+	private function regenerate( $attachment_id, $image_path, $dirname ) {
+		$url_path = AIS_Admin_Helpers::get_url_path( $dirname );
+		$meta = wp_generate_attachment_metadata( $attachment_id, $image_path );
+		$result = array();
+
+		if ( !empty( $meta['sizes'] ) ) {
+			foreach ( $meta['sizes'] as $size => $size_info ) {
+				$size_url_path = $url_path . DIRECTORY_SEPARATOR . $size_info['file'];
+				$result[] = AIS_Admin_Helpers::get_result_array( true, sprintf( __( '%s size has been generated: %s', 'advanced-image-settings' ), $size, AIS_Admin_Helpers::url_wrapper( $size_url_path ) ) );
+			}
+		} else {
+			$result = AIS_Admin_Helpers::get_result_array( true, sprintf( __( 'There is no more regeneration to do with this attachment', 'advanced-image-settings' ) ) );
+		}
+
+		wp_update_attachment_metadata( $attachment_id, $meta );
+
+		return $result;
+	}
+
+	/**
 	 * (AJAX) Remove sizes versions of a file and regenerate it
 	 *
 	 * @return void
@@ -215,19 +242,9 @@ class AIS_Admin_Attachments {
 			'id'   => $attachment_id,
 			'name' => $file_info['filename']
 		);
-		$url_path = AIS_Admin_Helpers::get_url_path( $file_info['dirname'] );
 
 		$result['results'] = $this->remove_files( $attachment_id );
-		$meta = wp_generate_attachment_metadata( $attachment_id, $image_path );
-		if ( !empty( $meta['sizes'] ) ) {
-			foreach ( $meta['sizes'] as $size => $size_info ) {
-				$size_url_path = $url_path . DIRECTORY_SEPARATOR . $size_info['file'];
-				$result['results'][] = AIS_Admin_Helpers::get_result_array( true, sprintf( __( '%s size has been generated: %s', 'advanced-image-settings' ), $size, AIS_Admin_Helpers::url_wrapper( $size_url_path ) ) );
-			}
-		} else {
-			$result['results'][] = AIS_Admin_Helpers::get_result_array( true, sprintf( __( 'There is no more regeneration to do with this attachment', 'advanced-image-settings' ) ) );
-		}
-		wp_update_attachment_metadata( $attachment_id, $meta );
+		$result['results'] = array_merge( $result['results'], $this->regenerate( $attachment_id, $image_path, $file_info['dirname'] ) );
 
 		wp_send_json_success( $this->get_log( $result ) );
 	}

@@ -71,11 +71,13 @@
 		if (tab) {
 			if (last) {
 				last[0].removeAttribute('aria-selected');
+				last[0].classList.remove('nav-tab-active');
 				last[0].setAttribute('tabindex', -1);
 				last[1].setAttribute('hidden', '');
 			}
 
 			tab[0].setAttribute('aria-selected', 'true');
+			tab[0].classList.add('nav-tab-active');
 			tab[0].removeAttribute('tabindex');
 			tab[1].removeAttribute('hidden', '');
 
