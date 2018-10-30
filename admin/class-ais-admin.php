@@ -28,10 +28,15 @@ class AIS_Admin {
 		
 		// Attachments
 		add_action( 'wp_ajax_ais_remove_size_file', array( $this->ais_attachments, 'remove_size_file' ) );
-	 	add_action( 'wp_ajax_ais_regenerate_attachment', array( $this->ais_attachments, 'regenerate_attachment' ) );
+		add_action( 'wp_ajax_ais_regenerate_attachment', array( $this->ais_attachments, 'regenerate_attachment' ) );
 		add_action( 'wp_ajax_ais_get_all_attachments', array( $this->ais_attachments, 'get_all_attachments' ) );
 	}
 
+	/**
+	 * Include necessary classes
+	 *
+	 * @return void
+	 */
 	private function load_dependencies() {
 		include_once 'includes/class-ais-admin-helpers.php';
 
@@ -68,8 +73,8 @@ class AIS_Admin {
 		return apply_filters( 'ais_messages',
 			array(
 				'ajaxFailure' => array(
-					'server'     => __( 'Server error, please retry', 'wpas' ),
-					'connection' => __( 'Connection error, please retry', 'wpas' )
+					'server'     => __( 'Server error, please retry', 'advanced-image-settings' ),
+					'connection' => __( 'Connection error, please retry', 'advanced-image-settings' )
 				)
 			)
 		);

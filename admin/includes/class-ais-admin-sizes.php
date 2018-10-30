@@ -124,6 +124,12 @@ class AIS_Admin_Sizes {
 		return $size;
 	}
 
+	/**
+	 * Test if custom size args are good
+	 *
+	 * @param array $size Size elements
+	 * @return TODO
+	 */
     private function validate_size( $size, $update = false ) {
 		$required_keys = array( 'disabled', 'width', 'height', 'crop', 'crop_position' );
 		if ( !$update )
@@ -207,7 +213,7 @@ class AIS_Admin_Sizes {
     }
 
     /**
-	 * Filter for disable a size eneration on image upload
+	 * Filter for disable a size generation on image upload
 	 *
 	 * @param array $sizes Sizes which are generated on image upload
 	 * @return array

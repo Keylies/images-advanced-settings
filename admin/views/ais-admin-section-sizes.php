@@ -1,5 +1,5 @@
 <section>
-    <p><?php _e( 'Disable default WordPress sizes', 'wpas' ); ?></p>
+    <p><?php _e( 'Disable default WordPress sizes', 'advanced-image-settings' ); ?></p>
 
     <form id="default-form">
         <?php foreach ( $default_sizes as $default_size ) : ?>
@@ -9,19 +9,19 @@
             </div>
         <?php endforeach; ?>
 
-        <button id="default-submit" class="button button-primary" type="submit" disabled><?php _e( 'Save', 'wpas' ); ?></button>
+        <button id="default-submit" class="button button-primary" type="submit" disabled><?php _e( 'Save', 'advanced-image-settings' ); ?></button>
     </form>
 </section> 
 
 <section>
-    <h3><?php _e( 'Add a custom size', 'wpas' ); ?></h2>
+    <h3><?php _e( 'Add a custom size', 'advanced-image-settings' ); ?></h2>
 
     <form id="add-form">
         <input type="hidden" name="new_size[disabled]" value="0">
         <table class="form-table">
             <tr>
                 <th scope="row">
-                    <label for="name"><?php _e( 'Name', 'wpas' ); ?></label>
+                    <label for="name"><?php _e( 'Name', 'advanced-image-settings' ); ?></label>
                 </th>
                 <td>
                     <input type="text" id="name" name="new_size[name]" required>
@@ -29,7 +29,7 @@
             </tr>
             <tr>
                 <th scope="row">
-                    <label for="width"><?php _e( 'Width', 'wpas' ); ?></label>
+                    <label for="width"><?php _e( 'Width', 'advanced-image-settings' ); ?></label>
                 </th>
                 <td>
                     <input type="number" id="width" name="new_size[width]" class="small-text" required>
@@ -37,7 +37,7 @@
             </tr>
             <tr>
                 <th scope="row">
-                    <label for="height"><?php _e( 'Height', 'wpas' ); ?></label>
+                    <label for="height"><?php _e( 'Height', 'advanced-image-settings' ); ?></label>
                 </th>
                 <td>
                     <input type="number" id="height" name="new_size[height]" class="small-text" required>
@@ -45,7 +45,7 @@
             </tr>
             <tr>
                 <th scope="row">
-                    <label for="crop"><?php _e( 'Crop', 'wpas' ); ?></label>
+                    <label for="crop"><?php _e( 'Crop', 'advanced-image-settings' ); ?></label>
                 </th>
                 <td>
                     <input type="hidden" id="crop" name="new_size[crop]" value="0">
@@ -59,12 +59,12 @@
             </tr>
         </table>
 
-        <button id="add-submit" class="button button-primary" type="submit" disabled><?php _e( 'Add', 'wpas' ); ?></button>
+        <button id="add-submit" class="button button-primary" type="submit" disabled><?php _e( 'Add', 'advanced-image-settings' ); ?></button>
     </form>
 </section>
 
 <section>
-    <h2><?php _e( 'Custom sizes', 'wpas' ); ?></h2>
+    <h2><?php _e( 'Custom sizes', 'advanced-image-settings' ); ?></h2>
 
     <div id="custom-sizes">
         <?php include AIS_Admin_Helpers::get_view('ais-admin-part-custom-sizes'); ?>

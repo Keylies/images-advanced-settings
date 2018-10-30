@@ -10,7 +10,7 @@ class AIS_Admin_Attachments {
 	 * Get attachments ids
 	 *
      * @param string $size_name Size name
-	 * @return array
+	 * @return array Attachments ids
 	 */
     static function get_attachments_ids( $size_name = NULL ) {
 		$args = array(
@@ -35,6 +35,12 @@ class AIS_Admin_Attachments {
 		return get_posts( $args );
 	}
 
+	/**
+	 * Remove a file
+	 *
+     * @param string $file_path Server file path
+	 * @return array
+	 */
 	private function remove_file( $file_path ) {
 		$url_path = AIS_Admin_Helpers::url_wrapper( AIS_Admin_Helpers::get_url_path( $file_path ) );
 		if ( !file_exists( $file_path ) )
@@ -48,11 +54,23 @@ class AIS_Admin_Attachments {
 			return AIS_Admin_Helpers::get_result_array( false, sprintf( __( 'File can not be removed due to unknown error: %s', 'advanced-image-settings' ), $url_path ) );
 	}
 
+	/**
+	 * Get attachment saved sizes
+	 *
+     * @param int $attachment_id Attachment ID
+	 * @return array
+	 */
 	private function get_attachment_sizes( $attachment_id ) {
 		$attachment_metadata = wp_get_attachment_metadata( $attachment_id );
 		return $attachment_metadata['sizes'];
 	}
 
+	/**
+	 * Find all attachment versions and remove its
+	 *
+     * @param int $attachment_id Attachment ID
+	 * @return array
+	 */
 	private function remove_files( $attachment_id ) {
 		$file_info = pathinfo( get_attached_file( $attachment_id ) );
 		$dir = opendir( $file_info['dirname'] );
@@ -82,6 +100,13 @@ class AIS_Admin_Attachments {
 		return $results;
 	}
 
+	/**
+	 * Find size version of an attachment and remove it
+	 *
+     * @param int $attachment_id Attachment ID
+	 * @param string $size_name Size to remove
+	 * @return array
+	 */
 	private function remove_attachment_size_file( $attachment_id, $size_name ) {
 		$attachment_sizes = $this->get_attachment_sizes( $attachment_id );
 
@@ -94,19 +119,45 @@ class AIS_Admin_Attachments {
 		return $this->remove_file( $file_path );
 	}
 
-	function remove_size_file() {
-		check_admin_referer( 'advanced-image-settings', 'nonce' );
+	/**
+	 * Get generated log HTML from removal results
+	 *
+     * @param array $result 
+	 * @return string
+	 */
+	private function get_log( $result ) {
+		ob_start();
+		include AIS_Admin_Helpers::get_view('ais-admin-part-log');
+		return ob_get_clean();
+	}
 
-		set_time_limit(0);
-
-		$attachment_id = $_POST['attachment_id'];
-		
+	/**
+	 * Check if an ID is set and numeric
+	 *
+     * @param int $attachment_id Attachment ID
+	 * @return void
+	 */
+	private function check_attachment_id( $attachment_id ) {
 		if ( !isset( $attachment_id ) || empty( $attachment_id ) )
 			wp_send_json_error( __( 'Attachment ID is missing', 'advanced-image-settings' ) );
 
 		if ( !is_numeric( $attachment_id ) )
 			wp_send_json_error( sprintf( __( 'Attachment ID "%d" is incorrect', 'advanced-image-settings' ), $attachment_id ) );
+	}
 
+	/**
+	 * (AJAX) Remove size version of a file
+	 *
+	 * @return void
+	 */
+	function remove_size_file() {
+		check_admin_referer( 'advanced-image-settings', 'nonce' );
+
+		set_time_limit(0);
+
+		$this->check_attachment_id( $_POST['attachment_id'] );
+
+		$attachment_id = $_POST['attachment_id'];
 		$image_path = get_attached_file( $attachment_id );
 
 		if ( $image_path === '' )
@@ -121,12 +172,14 @@ class AIS_Admin_Attachments {
 
 		$result['results'][] = $this->remove_attachment_size_file( $attachment_id, $_POST['size_name'] );
 
-		ob_start();
-		include AIS_Admin_Helpers::get_view('ais-admin-part-log');
-
-		wp_send_json_success( ob_get_clean() );
+		wp_send_json_success( $this->get_log( $result ) );
 	}
 
+	/**
+	 * (AJAX) Get all attachments ids
+	 *
+	 * @return void
+	 */
 	function get_all_attachments() {
 		check_admin_referer( 'advanced-image-settings', 'nonce' );
 
@@ -138,19 +191,19 @@ class AIS_Admin_Attachments {
 		wp_send_json_success( $attachments_ids );
 	}
 
+	/**
+	 * (AJAX) Remove sizes versions of a file and regenerate it
+	 *
+	 * @return void
+	 */
 	function regenerate_attachment() {
 		check_admin_referer( 'advanced-image-settings', 'nonce' );
 
 		set_time_limit(0);
 
-		$attachment_id = $_POST['attachment_id'];
+		$this->check_attachment_id( $_POST['attachment_id'] );
 		
-		if ( !isset( $attachment_id ) || empty( $attachment_id ) )
-			wp_send_json_error( __( 'Attachment ID is missing', 'advanced-image-settings' ) );
-
-		if ( !is_numeric( $attachment_id ) )
-			wp_send_json_error( sprintf( __( 'Attachment ID "%d" is incorrect', 'advanced-image-settings' ), $attachment_id ) );
-
+		$attachment_id = $_POST['attachment_id'];
 		$image_path = get_attached_file( $attachment_id );
 
 		if ( $image_path === '' )
@@ -176,10 +229,7 @@ class AIS_Admin_Attachments {
 		}
 		wp_update_attachment_metadata( $attachment_id, $meta );
 
-		ob_start();
-		include AIS_Admin_Helpers::get_view('ais-admin-part-log');
-
-		wp_send_json_success( ob_get_clean() );
+		wp_send_json_success( $this->get_log( $result ) );
 	}
 }
 

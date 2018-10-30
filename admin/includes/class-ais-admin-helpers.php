@@ -20,15 +20,33 @@ class AIS_Admin_Helpers {
 		);
     }
 
+	/**
+	 * Replace upload directory server path by an URL path
+	 *
+     * @param string $server_path Server path
+	 * @return string
+	 */
 	static function get_url_path( $server_path ) {
 		$upload_dir = wp_upload_dir();
 		return str_replace( $upload_dir['basedir'], $upload_dir['baseurl'], $server_path );
-    }
-
-	static function url_wrapper( $url ) {
-		return '<a href="' . $url . '" target="_blank">' . $url . '</a>';
 	}
 
+	/**
+	 * Get an HTML anchor populated with given URL
+	 *
+     * @param string $url URL
+	 * @return string
+	 */
+	static function url_wrapper( $url ) {
+		return '<a href="' . $url . '" target="_blank" rel="noopener">' . $url . '</a>';
+	}
+
+	/**
+	 * Get a view file server path
+	 *
+     * @param string $file_name File name
+	 * @return string
+	 */
 	static function get_view( $file_name ) {
 		return dirname( dirname( __FILE__ ) ) . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . $file_name . '.php';
 	}
