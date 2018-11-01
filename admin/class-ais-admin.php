@@ -18,6 +18,8 @@ class AIS_Admin {
 		add_action( 'admin_enqueue_scripts', array( $this, 'scripts' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'styles' ) );
 
+		add_filter( 'plugin_action_links_advanced-image-settings/advanced-image-settings.php', array( $this, 'action_links' ) );
+
 		// Sizes
 		add_action( 'wp_ajax_ais_disable_default', array( $this->ais_sizes, 'disable_default' ) );
 		add_action( 'wp_ajax_ais_add_size', array( $this->ais_sizes, 'add_size' ) );
@@ -121,6 +123,19 @@ class AIS_Admin {
 		$this->data = $this->ais_sizes->data;
 
 		include AIS_Admin_Helpers::get_view('ais-admin-page');
+	}
+
+	/**
+	 * Add settings link to extension
+	 * 
+	 * @param array $links Extension menu links
+	 * @return array
+	 */
+	function action_links( $links ) {
+		$link = '<a href="' . esc_url( get_admin_url( null, 'options-general.php?page=image-settings' ) ) . '">' . __( 'Settings', 'advanced-image-settings' ) . '</a>';
+		array_unshift( $links, $link );
+
+		return $links;
 	}
 
 	function scripts( $hook ) {

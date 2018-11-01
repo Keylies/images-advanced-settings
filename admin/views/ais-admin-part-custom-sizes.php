@@ -40,8 +40,14 @@
                 <?php endforeach; ?>
             </tbody>
         </table>
-        <button id="update-submit" class="button button-primary" type="submit" disabled><?php _e( 'Save modifications', 'advanced-image-settings' ); ?></button>
+
+        <button id="update-form-message" class="button button-primary" type="submit" disabled>
+            <?php _e( 'Save modifications', 'advanced-image-settings' ); ?>
+            <div class="ais-spinner"></div>
+        </button>
     </form>
 <?php else : ?>
     <p><?php _e( 'No custom sizes', 'advanced-image-settings' ); ?></p>
 <?php endif; ?>
+
+<p id="update-message"></p>

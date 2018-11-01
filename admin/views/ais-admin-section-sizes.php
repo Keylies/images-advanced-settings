@@ -9,7 +9,12 @@
             </div>
         <?php endforeach; ?>
 
-        <button id="default-submit" class="button button-primary" type="submit" disabled><?php _e( 'Save', 'advanced-image-settings' ); ?></button>
+        <button id="default-submit" class="button button-primary" type="submit" disabled>
+            <?php _e( 'Save', 'advanced-image-settings' ); ?>
+            <div class="ais-spinner"></div>
+        </button>
+
+        <p id="default-message"></p>
     </form>
 </section> 
 
@@ -59,7 +64,12 @@
             </tr>
         </table>
 
-        <button id="add-submit" class="button button-primary" type="submit" disabled><?php _e( 'Add', 'advanced-image-settings' ); ?></button>
+        <button id="add-submit" class="button button-primary" type="submit" disabled>
+            <?php _e( 'Add', 'advanced-image-settings' ); ?>
+            <div class="ais-spinner"></div>
+        </button>
+
+        <p id="add-message"></p>
     </form>
 </section>
 
@@ -70,3 +80,18 @@
         <?php include AIS_Admin_Helpers::get_view('ais-admin-part-custom-sizes'); ?>
     </div>
 </section>
+
+<div id="remove-modal" class="remove__modal" aria-hidden="true">
+    <p class="modal__title"><?php _e( 'Do you really want to remove this image size ?', 'advanced-image-settings' ); ?></p>
+    <div class="modal__input-container">
+        <input type="checkbox" id="remove-images-checkbox" name="remove_images" checked>
+        <label for="remove-images-checkbox"><?php _e( 'Remove generated images of this size too', 'advanced-image-settings' ); ?></label>
+    </div>
+    <div class="modal__buttons">
+        <button id="cancel-remove-button" class="button modal__button"><?php _e( 'Cancel', 'advanced-image-settings' ); ?></button>
+        <button id="confirm-remove-button" class="button button-primary modal__button">
+            <?php _e( 'Remove', 'advanced-image-settings' ); ?>
+            <div class="ais-spinner"></div>
+        </button>
+    </div>
+</div>

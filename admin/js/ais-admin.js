@@ -88,13 +88,12 @@
 	window.addEventListener('hashchange', onhashchange);
 	onhashchange();
 
-/** Custom sizes */
+/** General */
 
-	var customSizes = document.getElementById('custom-sizes');
-	var resultMessage = document.getElementById('result-message');
-
-	function setMessage(message) {
-		resultMessage.innerHTML = message || '';
+	function setMessage(messageContainer, message) {
+		var resultMessage = document.getElementById(messageContainer + '-message');
+		if (resultMessage)
+			resultMessage.innerHTML = message || '';
 	}
 
 	function post(args, callback, isFormData) {
@@ -119,15 +118,15 @@
 			if (request.status >= 200 && request.status < 400) {
 				callback(JSON.parse(request.responseText));
 			} else {
-				setMessage(AIS.messages.ajaxFailure.server);
+				setMessage(args['messageContainer'], AIS.messages.ajaxFailure.server);
 			}
 		};
 
 		request.onerror = function() {
-			setMessage(AIS.messages.ajaxFailure.connection);
+			setMessage(args['messageContainer'], AIS.messages.ajaxFailure.connection);
 		};
 
-		setMessage();
+		setMessage(args['messageContainer'], '');
 
 		request.open('POST', AIS.ajaxUrl, true);
 		if (!isFormData)
@@ -135,8 +134,111 @@
 		request.send(params);
 	}
 
+	var loadingClass = 'button--loading';
+
+	function toggleButton(button) {
+		if (button.classList.contains(loadingClass)) {
+			button.classList.remove(loadingClass);
+			button.removeAttribute('disabled');
+		} else {
+			button.classList.add(loadingClass);
+			button.setAttribute('disabled', true);
+		}
+	}
+
+/** Default sizes */
+
+	var defaultForm = document.getElementById('default-form');
+	var defaultSubmit = document.getElementById('default-submit');
+	var defaultArgs = {
+		'form' : defaultForm,
+		'messageContainer' : 'default',
+		'action' : AIS.actions.default,
+		'nonce' : AIS.nonce,
+	};
+
+	function disableDefault(e) {
+		e.preventDefault();
+		toggleButton(defaultSubmit);
+		setMessage(defaultArgs['messageContainer'], '');
+
+		post(defaultArgs, postResponse, true);
+
+		function postResponse(response) {
+			toggleButton(defaultSubmit);
+			setMessage(defaultArgs['messageContainer'], response.data.message);
+		}
+	}
+
+	if (defaultForm)
+		defaultForm.addEventListener('submit', disableDefault);
+
+/** Add size */
+
+	var addForm = document.getElementById('add-form');
+	var addSubmit = document.getElementById('add-submit');
+	var addSizeArgs = {
+		'form' : addForm,
+		'messageContainer' : 'add',
+		'action' : AIS.actions.add,
+		'nonce' : AIS.nonce
+	};
+
+	function addSize(e) {
+		e.preventDefault();
+		toggleButton(addSubmit);
+		setMessage(addSizeArgs['messageContainer'], '');
+
+		post(addSizeArgs, postResponse, true);
+
+		function postResponse(response) {
+			toggleButton(addSubmit);
+
+			if (response.success)
+				updateContent(response.data.content);
+	
+			setMessage(addSizeArgs['messageContainer'], response.data.message);
+		}
+	}
+
+	if (addForm)
+		addForm.addEventListener('submit', addSize);
+
+/** Update sizes */
+
+	var customSizes = document.getElementById('custom-sizes');
+	var updateForm = document.getElementById('update-form');
+	var updateSubmit = document.getElementById('update-submit');
+	var updateSizesArgs = {
+		'form' : updateForm,
+		'messageContainer' : 'update',
+		'action' : AIS.actions.update,
+		'nonce' : AIS.nonce
+	};
+
+	function updateSizes(e) {
+		e.preventDefault();
+		toggleButton(updateSubmit);
+		setMessage(updateSizesArgs['messageContainer'], '');
+
+		post(updateSizesArgs, postResponse, true);
+
+		function postResponse(response) {
+			toggleButton(updateSubmit);
+
+			if (response.success)
+				updateContent(response.data.content);
+
+			setMessage(updateSizesArgs['messageContainer'], response.data.message);
+		}
+	}
+
+	if (updateForm)
+		updateForm.addEventListener('submit', updateSizes);
+
 	function applyListeners() {
 		updateForm = document.getElementById('update-form');
+		updateSubmit = document.getElementById('update-submit');
 		removeButtons = document.getElementsByClassName('remove-button');
 
 		if (updateForm) {
@@ -155,84 +257,6 @@
 		customSizes.innerHTML = content;
 		applyListeners();
 	}
-
-/** Default sizes */
-
-	var defaultForm = document.getElementById('default-form');
-	var defaultSubmit = document.getElementById('default-submit');
-
-	function disableDefault(e) {
-		e.preventDefault();
-
-		var args = {
-			'form' : defaultForm,
-			'action' : AIS.actions.default,
-			'nonce' : AIS.nonce
-		};
-
-		post(args, postResponse, true);
-
-		function postResponse(response) {
-			setMessage(response.data.message)
-		}
-	}
-
-	if (defaultSubmit)
-		defaultSubmit.addEventListener('click', disableDefault);
-
-/** Add size */
-
-	var addForm = document.getElementById('add-form');
-	var addSizeArgs = {
-		'form' : addForm,
-		'action' : AIS.actions.add,
-		'nonce' : AIS.nonce
-	};
-
-	function addSize(e) {
-		e.preventDefault();
-
-		post(addSizeArgs, postResponse, true);
-
-		function postResponse(response) {
-			if (response.success) {
-				updateContent(response.data.content);
-				setMessage(response.data.message);
-			} else {
-				setMessage(response.data.message)
-			}
-		}
-	}
-
-	if (addForm)
-		addForm.addEventListener('submit', addSize);
-
-/** Update sizes */
-
-	var updateForm = document.getElementById('update-form');
-	var updateSizesArgs = {
-		'form' : updateForm,
-		'action' : AIS.actions.update,
-		'nonce' : AIS.nonce
-	};
-
-	function updateSizes(e) {
-		e.preventDefault();
-
-		post(updateSizesArgs, postResponse, true);
-
-		function postResponse(response) {
-			if (response.success) {
-				updateContent(response.data.content);
-				setMessage(response.data.message);
-			} else {
-				setMessage(response.data.message)
-			}
-		}
-	}
-
-	if (updateForm)
-		updateForm.addEventListener('submit', updateSizes);
 
 /** Logs */
 
@@ -286,6 +310,7 @@
 		var removeAttachmentSizeArgs = {
 			'attachment_id' : attachmentId,
 			'size_name' : sizeName,
+			'messageContainer' : 'update',
 			'action' : AIS.actions.removeSizeFile,
 			'nonce' : AIS.nonce
 		};
@@ -304,17 +329,20 @@
 	function removeSize(e) {
 		var args = {
 			'index' : currentRemoveIndex,
+			'messageContainer' : 'update',
 			'remove_images' : removeImagesCheckbox.checked,
 			'action' : AIS.actions.remove,
 			'nonce' : AIS.nonce
 		};
+
+		toggleButton(confirmRemoveButton);
 
 		post(args, postResponse);
 
 		function postResponse(response) {
 			if (response.success) {
 				updateContent(response.data.content);
-				setMessage(response.data.message);
+				setMessage(args['messageContainer'], response.data.message);
 				closeRemoveModal();
 				if (response.data.attachments_ids) {
 					if (Array.isArray(response.data.attachments_ids)) {
@@ -322,12 +350,13 @@
 						resetLogs(sizeAttachments.length);
 						removeAttachmentSize(sizeAttachments.shift(), response.data.size_name);
 					} else {
-						setMessage(response.data.attachments_ids);
+						setMessage(args['messageContainer'], response.data.attachments_ids);
 					}
 				}
 			} else {
-				setMessage(response.data.message)
+				setMessage(args['messageContainer'], response.data.message)
 			}
+			toggleButton(confirmRemoveButton);
 		}
 	}
 
@@ -338,18 +367,22 @@
 
 /** Regeneration */
 
-	var regenerate = document.getElementById('regenerate');
+	var regenerateButton = document.getElementById('regenerate-button');
 	var getAttachmentsArgs = {
 		'action' : AIS.actions.getAllAttachments,
+		'messageContainer' : 'regenerate',
 		'nonce' : AIS.nonce
 	};
 	var regenerateArgs = {
 		'action' : AIS.actions.regenerate,
+		'messageContainer' : 'regenerate',
 		'nonce' : AIS.nonce
 	};
 	var regenerateAttachments = [];
 
-	function getAllAttachments() {
+	function getAllAttachments(e) {
+		e.preventDefault();
+		toggleButton(regenerateButton);
 		post(getAttachmentsArgs, getAttachmentsResponse);
 
 		function getAttachmentsResponse(response) {
@@ -357,7 +390,8 @@
 				regenerateAttachments = response.data;
 				regenerateAll();
 			} else {
-				setMessage(response.data);
+				setMessage(getAttachmentsArgs['messageContainer'], response.data);
+				toggleButton(regenerateButton);
 			}
 		}
 	}
@@ -376,10 +410,12 @@
 
 			if (regenerateAttachments.length) {
 				regenerateAttachment(regenerateAttachments.shift());
+			} else {
+				toggleButton(regenerateButton);
 			}
 		}
 	}
 
-	if (regenerate)
-		regenerate.addEventListener('click', getAllAttachments);
+	if (regenerateButton)
+		regenerateButton.addEventListener('click', getAllAttachments);
 })();

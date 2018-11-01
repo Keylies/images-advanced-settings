@@ -72,3 +72,35 @@
             .log__result--failure {
                 background-color: #f5cccc;
             }
+
+.ais-spinner {
+    display: none;
+    width: 18px;
+    height: 18px;
+    margin-left: 5px;
+    vertical-align: middle;
+}
+
+.ais-spinner:after {
+    content: " ";
+    display: block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    border-color: #fff transparent #fff transparent;
+    animation: spinner 1.2s linear infinite;
+}
+
+.button--loading .ais-spinner {
+    display: inline-block;
+}
+
+@keyframes spinner {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

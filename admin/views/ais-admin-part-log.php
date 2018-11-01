@@ -1,6 +1,6 @@
 <li class="log">
     <?php echo wp_get_attachment_image( $result['id'] ); ?>
-    <p class="log__title"><?php echo $result['name']; ?> (ID <?php echo $result['id']; ?>)</p>
+    <p class="log__title"><?php echo date('H:i:s') . ' - ' . $result['name']; ?> (ID <?php echo $result['id']; ?>)</p>
 
     <?php if ( !empty( $result['results'] ) ) : ?>
         <ul class="log__results">

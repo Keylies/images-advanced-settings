@@ -19,8 +19,6 @@
         <?php $i++; endforeach; ?>
     </ul>
 
-    <p id="result-message"></p>
-
     <?php $i = 0; foreach ( $sections as $section_key => $section_title ) : ?>
         <div
             id="<?php echo $section_key; ?>" 
@@ -34,26 +32,10 @@
             <?php include AIS_Admin_Helpers::get_view('ais-admin-section-' . $section_key); ?>
         </div>
     <?php $i++; endforeach; ?>
-
-    <div id="logs-container">
-        <progress id="logs-bar"></progress>
-        <p id="logs-status"></p>
-        <ol id="logs" class="logs"></ol>
-    </div>
-
-    <div id="remove-modal" class="remove__modal" aria-hidden="true">
-        <p class="modal__title"><?php _e( 'Do you really want to remove this image size ?', 'advanced-image-settings' ); ?></p>
-        <div class="modal__input-container">
-            <input type="checkbox" id="remove-images-checkbox" name="remove_images" checked>
-            <label for="remove-images-checkbox"><?php _e( 'Remove generated images of this size too', 'advanced-image-settings' ); ?></label>
-        </div>
-        <div class="modal__buttons">
-            <button id="cancel-remove-button" class="button modal__button"><?php _e( 'Cancel', 'advanced-image-settings' ); ?></button>
-            <button id="confirm-remove-button" class="button button-primary modal__button"><?php _e( 'Remove', 'advanced-image-settings' ); ?></button>
-        </div>
-    </div>
 </div>
 
-<?php
-//$this->debug();
-?>
+<div id="logs-container">
+    <progress id="logs-bar"></progress>
+    <p id="logs-status"></p>
+    <ol id="logs" class="logs"></ol>
+</div>

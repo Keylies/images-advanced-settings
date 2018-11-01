@@ -210,7 +210,7 @@ class AIS_Admin_Attachments {
 				$result[] = AIS_Admin_Helpers::get_result_array( true, sprintf( __( '%s size has been generated: %s', 'advanced-image-settings' ), $size, AIS_Admin_Helpers::url_wrapper( $size_url_path ) ) );
 			}
 		} else {
-			$result = AIS_Admin_Helpers::get_result_array( true, sprintf( __( 'There is no more regeneration to do with this attachment', 'advanced-image-settings' ) ) );
+			$result[] = AIS_Admin_Helpers::get_result_array( true, sprintf( __( 'There is no more regeneration to do with this attachment', 'advanced-image-settings' ) ) );
 		}
 
 		wp_update_attachment_metadata( $attachment_id, $meta );
