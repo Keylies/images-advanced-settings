@@ -73,7 +73,7 @@
                 background-color: #f5cccc;
             }
 
-.ais-spinner {
+.ias-spinner {
     display: none;
     width: 18px;
     height: 18px;
@@ -81,7 +81,7 @@
     vertical-align: middle;
 }
 
-.ais-spinner:after {
+.ias-spinner:after {
     content: " ";
     display: block;
     width: 10px;
@@ -92,7 +92,7 @@
     animation: spinner 1.2s linear infinite;
 }
 
-.button--loading .ais-spinner {
+.button--loading .ias-spinner {
     display: inline-block;
 }
 

@@ -2,9 +2,9 @@
 
 if( !defined( 'ABSPATH' ) ) exit;
 
-if ( !class_exists( 'AIS_Admin_Attachments' ) ) :
+if ( !class_exists( 'IAS_Admin_Attachments' ) ) :
 
-class AIS_Admin_Attachments {
+class IAS_Admin_Attachments {
 
     /**
 	 * Get attachments ids
@@ -30,7 +30,7 @@ class AIS_Admin_Attachments {
 			);
 		}
 
-		$args = apply_filters( 'ais_attachments_args', $args );
+		$args = apply_filters( 'ias_attachments_args', $args );
 
 		return get_posts( $args );
 	}
@@ -42,16 +42,16 @@ class AIS_Admin_Attachments {
 	 * @return array
 	 */
 	private function remove_file( $file_path ) {
-		$url_path = AIS_Admin_Helpers::url_wrapper( AIS_Admin_Helpers::get_url_path( $file_path ) );
+		$url_path = IAS_Admin_Helpers::url_wrapper( IAS_Admin_Helpers::get_url_path( $file_path ) );
 		if ( !file_exists( $file_path ) )
-			return AIS_Admin_Helpers::get_result_array( false, sprintf( __( 'File does not exist and can not be removed: %s', 'advanced-image-settings' ), $url_path ) );
+			return IAS_Admin_Helpers::get_result_array( false, sprintf( __( 'File does not exist and can not be removed: %s', 'images-advanced-settings' ), $url_path ) );
 
 		wp_delete_file( $file_path );
 
 		if ( !file_exists( $file_path ) )
-			return AIS_Admin_Helpers::get_result_array( true, sprintf( __( 'File has been removed: %s', 'advanced-image-settings' ), $url_path ) );
+			return IAS_Admin_Helpers::get_result_array( true, sprintf( __( 'File has been removed: %s', 'images-advanced-settings' ), $url_path ) );
 		else
-			return AIS_Admin_Helpers::get_result_array( false, sprintf( __( 'File can not be removed due to unknown error: %s', 'advanced-image-settings' ), $url_path ) );
+			return IAS_Admin_Helpers::get_result_array( false, sprintf( __( 'File can not be removed due to unknown error: %s', 'images-advanced-settings' ), $url_path ) );
 	}
 
 	/**
@@ -77,7 +77,7 @@ class AIS_Admin_Attachments {
 		$results = array();
 
 		if ( $dir === false )
-			return AIS_Admin_Helpers::get_result_array( false, sprintf( __( 'Directory "%s" can not be opened', 'advanced-image-settings' ), $file_info['dirname'] ) );
+			return IAS_Admin_Helpers::get_result_array( false, sprintf( __( 'Directory "%s" can not be opened', 'images-advanced-settings' ), $file_info['dirname'] ) );
 
 		while ( ( $file = readdir( $dir ) ) !== false ) {
 			if ( strrpos( $file, $file_info['filename'] ) !== false )
@@ -87,7 +87,7 @@ class AIS_Admin_Attachments {
 		closedir( $dir );
 
 		if ( empty( $files ) )
-			return AIS_Admin_Helpers::get_result_array( false, sprintf( __( 'There is no file found for "%s"', 'advanced-image-settings' ), $file_info['filename'] ) );
+			return IAS_Admin_Helpers::get_result_array( false, sprintf( __( 'There is no file found for "%s"', 'images-advanced-settings' ), $file_info['filename'] ) );
 
 		foreach ( $files as $file_name ) {
 			$file_path = $file_info['dirname'] . DIRECTORY_SEPARATOR . $file_name;
@@ -111,7 +111,7 @@ class AIS_Admin_Attachments {
 		$attachment_sizes = $this->get_attachment_sizes( $attachment_id );
 
 		if ( !isset( $attachment_sizes[ $size_name ] ) )
-			return AIS_Admin_Helpers::get_result_array( false, sprintf( __( 'Size %s was not found for this file', 'advanced-image-settings' ), $size_name ) );
+			return IAS_Admin_Helpers::get_result_array( false, sprintf( __( 'Size %s was not found for this file', 'images-advanced-settings' ), $size_name ) );
 
 		$dirname = dirname( get_attached_file( $attachment_id ) );
 		$file_path = $dirname . DIRECTORY_SEPARATOR . $attachment_sizes[ $size_name ]['file'];
@@ -127,7 +127,7 @@ class AIS_Admin_Attachments {
 	 */
 	private function get_log( $result ) {
 		ob_start();
-		include AIS_Admin_Helpers::get_view('ais-admin-part-log');
+		include IAS_Admin_Helpers::get_view('ias-admin-part-log');
 		return ob_get_clean();
 	}
 
@@ -139,10 +139,10 @@ class AIS_Admin_Attachments {
 	 */
 	private function check_attachment_id( $attachment_id ) {
 		if ( !isset( $attachment_id ) || empty( $attachment_id ) )
-			wp_send_json_error( __( 'Attachment ID is missing', 'advanced-image-settings' ) );
+			wp_send_json_error( __( 'Attachment ID is missing', 'images-advanced-settings' ) );
 
 		if ( !is_numeric( $attachment_id ) )
-			wp_send_json_error( sprintf( __( 'Attachment ID "%d" is incorrect', 'advanced-image-settings' ), $attachment_id ) );
+			wp_send_json_error( sprintf( __( 'Attachment ID "%d" is incorrect', 'images-advanced-settings' ), $attachment_id ) );
 	}
 
 	/**
@@ -151,7 +151,7 @@ class AIS_Admin_Attachments {
 	 * @return void
 	 */
 	function remove_size_file() {
-		check_admin_referer( 'advanced-image-settings', 'nonce' );
+		check_admin_referer( 'images-advanced-settings', 'nonce' );
 
 		set_time_limit(0);
 
@@ -161,7 +161,7 @@ class AIS_Admin_Attachments {
 		$image_path = get_attached_file( $attachment_id );
 
 		if ( $image_path === '' )
-			wp_send_json_error( sprintf( __( 'File not found for ID "%d"', 'advanced-image-settings' ), $attachment_id ) );
+			wp_send_json_error( sprintf( __( 'File not found for ID "%d"', 'images-advanced-settings' ), $attachment_id ) );
 
 		$file_info = pathinfo( $image_path );
 		$result = array(
@@ -181,12 +181,12 @@ class AIS_Admin_Attachments {
 	 * @return void
 	 */
 	function get_all_attachments() {
-		check_admin_referer( 'advanced-image-settings', 'nonce' );
+		check_admin_referer( 'images-advanced-settings', 'nonce' );
 
 		$attachments_ids = $this->get_attachments_ids();
 
 		if ( empty( $attachments_ids ) )
-			wp_send_json_error( __( 'There is no attachment', 'advanced-image-settings' ) );
+			wp_send_json_error( __( 'There is no attachment', 'images-advanced-settings' ) );
 
 		wp_send_json_success( $attachments_ids );
 	}
@@ -200,17 +200,17 @@ class AIS_Admin_Attachments {
 	 * @return array
 	 */
 	private function regenerate( $attachment_id, $image_path, $dirname ) {
-		$url_path = AIS_Admin_Helpers::get_url_path( $dirname );
+		$url_path = IAS_Admin_Helpers::get_url_path( $dirname );
 		$meta = wp_generate_attachment_metadata( $attachment_id, $image_path );
 		$result = array();
 
 		if ( !empty( $meta['sizes'] ) ) {
 			foreach ( $meta['sizes'] as $size => $size_info ) {
 				$size_url_path = $url_path . DIRECTORY_SEPARATOR . $size_info['file'];
-				$result[] = AIS_Admin_Helpers::get_result_array( true, sprintf( __( '%s size has been generated: %s', 'advanced-image-settings' ), $size, AIS_Admin_Helpers::url_wrapper( $size_url_path ) ) );
+				$result[] = IAS_Admin_Helpers::get_result_array( true, sprintf( __( '%s size has been generated: %s', 'images-advanced-settings' ), $size, IAS_Admin_Helpers::url_wrapper( $size_url_path ) ) );
 			}
 		} else {
-			$result[] = AIS_Admin_Helpers::get_result_array( true, sprintf( __( 'There is no more regeneration to do with this attachment', 'advanced-image-settings' ) ) );
+			$result[] = IAS_Admin_Helpers::get_result_array( true, sprintf( __( 'There is no more regeneration to do with this attachment', 'images-advanced-settings' ) ) );
 		}
 
 		wp_update_attachment_metadata( $attachment_id, $meta );
@@ -224,7 +224,7 @@ class AIS_Admin_Attachments {
 	 * @return void
 	 */
 	function regenerate_attachment() {
-		check_admin_referer( 'advanced-image-settings', 'nonce' );
+		check_admin_referer( 'images-advanced-settings', 'nonce' );
 
 		set_time_limit(0);
 
@@ -234,7 +234,7 @@ class AIS_Admin_Attachments {
 		$image_path = get_attached_file( $attachment_id );
 
 		if ( $image_path === '' )
-			wp_send_json_error( sprintf( __( 'File not found for ID "%d"', 'advanced-image-settings' ), $attachment_id ) );
+			wp_send_json_error( sprintf( __( 'File not found for ID "%d"', 'images-advanced-settings' ), $attachment_id ) );
 
 		$file_info = pathinfo( $image_path );
 		$result = array(

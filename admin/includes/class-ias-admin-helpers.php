@@ -2,9 +2,9 @@
 
 if( !defined( 'ABSPATH' ) ) exit;
 
-if ( !class_exists( 'AIS_Admin_Helpers' ) ) :
+if ( !class_exists( 'IAS_Admin_Helpers' ) ) :
 
-class AIS_Admin_Helpers {
+class IAS_Admin_Helpers {
 
     /**
 	 * Format response for ajax requests

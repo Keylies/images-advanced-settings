@@ -2,11 +2,11 @@
 if ( 
     !defined( 'WP_UNINSTALL_PLUGIN' ) ||
     !is_admin() ||
-    $_REQUEST['plugin'] !== 'advanced-image-settings/advanced-image-settings.php'
+    $_REQUEST['plugin'] !== 'images-advanced-settings/images-advanced-settings.php'
 ) exit;
 
 $options = array(
-    'advanced_image_settings'
+    'images_advanced_settings'
 );
 
 if ( is_multisite() ) {

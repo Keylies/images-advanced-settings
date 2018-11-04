@@ -118,17 +118,17 @@
 			if (request.status >= 200 && request.status < 400) {
 				callback(JSON.parse(request.responseText));
 			} else {
-				setMessage(args['messageContainer'], AIS.messages.ajaxFailure.server);
+				setMessage(args['messageContainer'], IAS.messages.ajaxFailure.server);
 			}
 		};
 
 		request.onerror = function() {
-			setMessage(args['messageContainer'], AIS.messages.ajaxFailure.connection);
+			setMessage(args['messageContainer'], IAS.messages.ajaxFailure.connection);
 		};
 
 		setMessage(args['messageContainer'], '');
 
-		request.open('POST', AIS.ajaxUrl, true);
+		request.open('POST', IAS.ajaxUrl, true);
 		if (!isFormData)
 			request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 		request.send(params);
@@ -153,8 +153,8 @@
 	var defaultArgs = {
 		'form' : defaultForm,
 		'messageContainer' : 'default',
-		'action' : AIS.actions.default,
-		'nonce' : AIS.nonce,
+		'action' : IAS.actions.default,
+		'nonce' : IAS.nonce,
 	};
 
 	function disableDefault(e) {
@@ -180,8 +180,8 @@
 	var addSizeArgs = {
 		'form' : addForm,
 		'messageContainer' : 'add',
-		'action' : AIS.actions.add,
-		'nonce' : AIS.nonce
+		'action' : IAS.actions.add,
+		'nonce' : IAS.nonce
 	};
 
 	function addSize(e) {
@@ -212,8 +212,8 @@
 	var updateSizesArgs = {
 		'form' : updateForm,
 		'messageContainer' : 'update',
-		'action' : AIS.actions.update,
-		'nonce' : AIS.nonce
+		'action' : IAS.actions.update,
+		'nonce' : IAS.nonce
 	};
 
 	function updateSizes(e) {
@@ -314,8 +314,8 @@
 			'attachment_id' : attachmentId,
 			'size_name' : sizeName,
 			'messageContainer' : 'update',
-			'action' : AIS.actions.removeSizeFile,
-			'nonce' : AIS.nonce
+			'action' : IAS.actions.removeSizeFile,
+			'nonce' : IAS.nonce
 		};
 
 		post(removeAttachmentSizeArgs, removeAttachmentSizeResponse);
@@ -334,8 +334,8 @@
 			'index' : currentRemoveIndex,
 			'messageContainer' : 'update',
 			'remove_images' : removeImagesCheckbox.checked,
-			'action' : AIS.actions.remove,
-			'nonce' : AIS.nonce
+			'action' : IAS.actions.remove,
+			'nonce' : IAS.nonce
 		};
 
 		toggleButton(confirmRemoveButton);
@@ -372,14 +372,14 @@
 
 	var regenerateButton = document.getElementById('regenerate-button');
 	var getAttachmentsArgs = {
-		'action' : AIS.actions.getAllAttachments,
+		'action' : IAS.actions.getAllAttachments,
 		'messageContainer' : 'regenerate',
-		'nonce' : AIS.nonce
+		'nonce' : IAS.nonce
 	};
 	var regenerateArgs = {
-		'action' : AIS.actions.regenerate,
+		'action' : IAS.actions.regenerate,
 		'messageContainer' : 'regenerate',
-		'nonce' : AIS.nonce
+		'nonce' : IAS.nonce
 	};
 	var regenerateAttachments = [];
 

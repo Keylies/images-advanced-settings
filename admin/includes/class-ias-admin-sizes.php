@@ -2,16 +2,16 @@
 
 if( !defined( 'ABSPATH' ) ) exit;
 
-if ( !class_exists( 'AIS_Admin_Sizes' ) ) :
+if ( !class_exists( 'IAS_Admin_Sizes' ) ) :
 
-class AIS_Admin_Sizes {
+class IAS_Admin_Sizes {
 
 	public $data;
     private $option_name;
     private $images_types;
 
 	function __construct() {
-		$this->option_name = 'advanced_image_settings';
+		$this->option_name = 'images_advanced_settings';
 		$this->init_data();
 	}
 
@@ -47,7 +47,7 @@ class AIS_Admin_Sizes {
 	 * @return void
 	 */
 	private function init_data() {
-		$this->images_types = apply_filters( 'ais_images_types', 
+		$this->images_types = apply_filters( 'ias_images_types', 
 			array(
 				'jpeg',
 				'jpg',
@@ -94,7 +94,7 @@ class AIS_Admin_Sizes {
 		ob_start();
 		$crop_positions = $this->get_crop_positions();
 
-		include AIS_Admin_Helpers::get_view('ais-admin-part-custom-sizes');
+		include IAS_Admin_Helpers::get_view('ias-admin-part-custom-sizes');
 
 		return ob_get_clean();
     }
@@ -108,7 +108,7 @@ class AIS_Admin_Sizes {
 	private function is_good_dimension( $field_value ) {
 		$is_good = is_numeric( $field_value ) && $field_value > 0;
 
-		return apply_filters( 'ais_dimension', $is_good );
+		return apply_filters( 'ias_dimension', $is_good );
     }
 
     /**
@@ -134,22 +134,22 @@ class AIS_Admin_Sizes {
 		$required_keys = array( 'disabled', 'width', 'height', 'crop', 'crop_position' );
 		if ( !$update )
 			$required_keys[] = 'name';
-		$required_keys = apply_filters( 'ais_required_keys', $required_keys );
+		$required_keys = apply_filters( 'ias_required_keys', $required_keys );
 
 		$wp_error = new WP_Error();
 
 		foreach ( $required_keys as $key ) {
 			if ( !isset( $size[ $key ] ) ) {
-				$wp_error->add( 'missing-field', sprintf( __( '%s field is missing', 'advanced-image-settings' ), $key ) );
+				$wp_error->add( 'missing-field', sprintf( __( '%s field is missing', 'images-advanced-settings' ), $key ) );
 			} elseif ( $key !== 'crop' && $key !== 'disabled' && empty( $size[ $key ] ) ) {
-				$wp_error->add( 'empty-field', sprintf( __( '%s field is empty', 'advanced-image-settings' ), $key ) );
+				$wp_error->add( 'empty-field', sprintf( __( '%s field is empty', 'images-advanced-settings' ), $key ) );
 			} elseif ( ( $key === 'width' || $key === 'height' ) && !$this->is_good_dimension( $size[ $key ] ) ) {
-				$wp_error->add( 'bad-dimension', sprintf( __( '%s dimension is invalid', 'advanced-image-settings' ), $key ) );
+				$wp_error->add( 'bad-dimension', sprintf( __( '%s dimension is invalid', 'images-advanced-settings' ), $key ) );
 			} elseif ( !$update && $key === 'name' ) {
 				$current_sizes = get_intermediate_image_sizes();
 
 				if ( in_array( $size[ $key ], $current_sizes ) )
-					$wp_error->add( 'existing-name', sprintf( __( '%s already exists', 'advanced-image-settings' ), $size[ $key ] ) );
+					$wp_error->add( 'existing-name', sprintf( __( '%s already exists', 'images-advanced-settings' ), $size[ $key ] ) );
 			}
 		}
 
@@ -178,15 +178,15 @@ class AIS_Admin_Sizes {
      */
     function get_crop_positions() {
         $x = array(
-            'center' => __( 'Center', 'advanced-image-settings' ),
-            'left'   => __( 'Left', 'advanced-image-settings' ),
-            'right'  => __( 'Right', 'advanced-image-settings' ),
+            'center' => __( 'Center', 'images-advanced-settings' ),
+            'left'   => __( 'Left', 'images-advanced-settings' ),
+            'right'  => __( 'Right', 'images-advanced-settings' ),
         );
 
         $y = array(
-            'center' => __( 'center', 'advanced-image-settings' ),
-            'top'    => __( 'top', 'advanced-image-settings' ),
-            'bottom' => __( 'bottom', 'advanced-image-settings' ),
+            'center' => __( 'center', 'images-advanced-settings' ),
+            'top'    => __( 'top', 'images-advanced-settings' ),
+            'bottom' => __( 'bottom', 'images-advanced-settings' ),
         );
 
         foreach ( $x as $x_pos => $x_pos_label )
@@ -202,7 +202,7 @@ class AIS_Admin_Sizes {
 	 * @return void
 	 */
 	function disable_default() {
-		check_admin_referer( 'advanced-image-settings', 'nonce' );
+		check_admin_referer( 'images-advanced-settings', 'nonce' );
 
 		$this->data['default_sizes_disabled'] = !isset( $_POST['default_sizes_disabled'] ) ? array() : $_POST['default_sizes_disabled'];
 		$this->update_option();
@@ -239,7 +239,7 @@ class AIS_Admin_Sizes {
 	 * @return void
 	 */
     function add_size() {
-		check_admin_referer( 'advanced-image-settings', 'nonce' );
+		check_admin_referer( 'images-advanced-settings', 'nonce' );
 
 		$validation = $this->validate_size( $_POST['new_size'] );
 
@@ -261,7 +261,7 @@ class AIS_Admin_Sizes {
 	 * @return void
 	 */
     function update_sizes() {
-		check_admin_referer( 'advanced-image-settings', 'nonce' );
+		check_admin_referer( 'images-advanced-settings', 'nonce' );
 
 		$updated_sizes = $_POST['updated_sizes'];
 		$sizes_number = count( $updated_sizes['name'] );
@@ -288,7 +288,7 @@ class AIS_Admin_Sizes {
 		$this->update_option();
 
 		wp_send_json_success( array(
-			'message' => __( 'Image sizes updated', 'advanced-image-settings' ),
+			'message' => __( 'Image sizes updated', 'images-advanced-settings' ),
 			'content' => $this->get_custom_sizes_view()
 		) );
 	}
@@ -299,7 +299,7 @@ class AIS_Admin_Sizes {
 	 * @return void
 	 */
 	function remove_size() {
-		check_admin_referer( 'advanced-image-settings', 'nonce' );
+		check_admin_referer( 'images-advanced-settings', 'nonce' );
 
 		$size_name = $this->data['sizes'][ $_POST['index'] ]['name'];
 
@@ -310,14 +310,14 @@ class AIS_Admin_Sizes {
 		$this->update_option();
 
 		$return = array(
-			'message' => __( 'Image size deleted', 'advanced-image-settings' ),
+			'message' => __( 'Image size deleted', 'images-advanced-settings' ),
 			'content' => $this->get_custom_sizes_view()
 		);
 
 		if ( isset( $_POST['remove_images'] ) && $_POST['remove_images'] !== 'false' ) {
-			$ais_attachments = new AIS_Admin_Attachments();
-			$attachments_ids = $ais_attachments->get_attachments_ids( $size_name );
-			$return['attachments_ids'] = !empty( $attachments_ids ) ? $attachments_ids : __( 'No file with this size was found', 'advanced-image-settings' );
+			$ias_attachments = new IAS_Admin_Attachments();
+			$attachments_ids = $ias_attachments->get_attachments_ids( $size_name );
+			$return['attachments_ids'] = !empty( $attachments_ids ) ? $attachments_ids : __( 'No file with this size was found', 'images-advanced-settings' );
 			$return['size_name'] = $size_name;
 		}
 

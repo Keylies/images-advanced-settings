@@ -1,17 +1,17 @@
 <section>
-    <p><?php _e( 'Disable default WordPress sizes', 'advanced-image-settings' ); ?></p>
+    <p><?php _e( 'Disable default WordPress sizes', 'images-advanced-settings' ); ?></p>
 
     <form id="default-form">
         <?php foreach ( $default_sizes as $default_size ) : ?>
             <div>
-                <input type="checkbox" id="default-sizes-<?php echo $default_size; ?>" name="default_sizes_disabled[]" value="<?php echo $default_size; ?>" <?php checked( in_array( $default_size, $this->ais_sizes->data['default_sizes_disabled'] ), true ); ?>>
+                <input type="checkbox" id="default-sizes-<?php echo $default_size; ?>" name="default_sizes_disabled[]" value="<?php echo $default_size; ?>" <?php checked( in_array( $default_size, $this->ias_sizes->data['default_sizes_disabled'] ), true ); ?>>
                 <label for="default-sizes-<?php echo $default_size; ?>"><?php echo $default_size; ?></label>
             </div>
         <?php endforeach; ?>
 
         <button id="default-submit" class="button button-primary" type="submit" disabled>
-            <?php _e( 'Save', 'advanced-image-settings' ); ?>
-            <div class="ais-spinner"></div>
+            <?php _e( 'Save', 'images-advanced-settings' ); ?>
+            <div class="ias-spinner"></div>
         </button>
 
         <p id="default-message"></p>
@@ -19,14 +19,14 @@
 </section> 
 
 <section>
-    <h3><?php _e( 'Add a custom size', 'advanced-image-settings' ); ?></h2>
+    <h3><?php _e( 'Add a custom size', 'images-advanced-settings' ); ?></h2>
 
     <form id="add-form">
         <input type="hidden" name="new_size[disabled]" value="0">
         <table class="form-table">
             <tr>
                 <th scope="row">
-                    <label for="name"><?php _e( 'Name', 'advanced-image-settings' ); ?></label>
+                    <label for="name"><?php _e( 'Name', 'images-advanced-settings' ); ?></label>
                 </th>
                 <td>
                     <input type="text" id="name" name="new_size[name]" required>
@@ -34,7 +34,7 @@
             </tr>
             <tr>
                 <th scope="row">
-                    <label for="width"><?php _e( 'Width', 'advanced-image-settings' ); ?></label>
+                    <label for="width"><?php _e( 'Width', 'images-advanced-settings' ); ?></label>
                 </th>
                 <td>
                     <input type="number" id="width" name="new_size[width]" class="small-text" required>
@@ -42,7 +42,7 @@
             </tr>
             <tr>
                 <th scope="row">
-                    <label for="height"><?php _e( 'Height', 'advanced-image-settings' ); ?></label>
+                    <label for="height"><?php _e( 'Height', 'images-advanced-settings' ); ?></label>
                 </th>
                 <td>
                     <input type="number" id="height" name="new_size[height]" class="small-text" required>
@@ -50,7 +50,7 @@
             </tr>
             <tr>
                 <th scope="row">
-                    <label for="crop"><?php _e( 'Crop', 'advanced-image-settings' ); ?></label>
+                    <label for="crop"><?php _e( 'Crop', 'images-advanced-settings' ); ?></label>
                 </th>
                 <td>
                     <input type="hidden" id="crop" name="new_size[crop]" value="0">
@@ -65,8 +65,8 @@
         </table>
 
         <button id="add-submit" class="button button-primary" type="submit" disabled>
-            <?php _e( 'Add', 'advanced-image-settings' ); ?>
-            <div class="ais-spinner"></div>
+            <?php _e( 'Add', 'images-advanced-settings' ); ?>
+            <div class="ias-spinner"></div>
         </button>
 
         <p id="add-message"></p>
@@ -74,24 +74,24 @@
 </section>
 
 <section>
-    <h2><?php _e( 'Custom sizes', 'advanced-image-settings' ); ?></h2>
+    <h2><?php _e( 'Custom sizes', 'images-advanced-settings' ); ?></h2>
 
     <div id="custom-sizes">
-        <?php include AIS_Admin_Helpers::get_view('ais-admin-part-custom-sizes'); ?>
+        <?php include IAS_Admin_Helpers::get_view('ias-admin-part-custom-sizes'); ?>
     </div>
 </section>
 
 <div id="remove-modal" class="remove__modal" aria-hidden="true">
-    <p class="modal__title"><?php _e( 'Do you really want to remove this image size ?', 'advanced-image-settings' ); ?></p>
+    <p class="modal__title"><?php _e( 'Do you really want to remove this image size ?', 'images-advanced-settings' ); ?></p>
     <div class="modal__input-container">
         <input type="checkbox" id="remove-images-checkbox" name="remove_images" checked>
-        <label for="remove-images-checkbox"><?php _e( 'Remove generated images of this size too', 'advanced-image-settings' ); ?></label>
+        <label for="remove-images-checkbox"><?php _e( 'Remove generated images of this size too', 'images-advanced-settings' ); ?></label>
     </div>
     <div class="modal__buttons">
-        <button id="cancel-remove-button" class="button modal__button"><?php _e( 'Cancel', 'advanced-image-settings' ); ?></button>
+        <button id="cancel-remove-button" class="button modal__button"><?php _e( 'Cancel', 'images-advanced-settings' ); ?></button>
         <button id="confirm-remove-button" class="button button-primary modal__button">
-            <?php _e( 'Remove', 'advanced-image-settings' ); ?>
-            <div class="ais-spinner"></div>
+            <?php _e( 'Remove', 'images-advanced-settings' ); ?>
+            <div class="ias-spinner"></div>
         </button>
     </div>
 </div>

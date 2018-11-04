@@ -1,4 +1,4 @@
-<div class="wrap ais">
+<div class="wrap ias">
     <h1><?php echo get_admin_page_title(); ?></h1>
 
     <ul class="tabs nav-tab-wrapper" role="tablist">
@@ -29,7 +29,7 @@
         >
             <h2><?php echo $section_title; ?></h2>
 
-            <?php include AIS_Admin_Helpers::get_view('ais-admin-section-' . $section_key); ?>
+            <?php include IAS_Admin_Helpers::get_view('ias-admin-section-' . $section_key); ?>
         </div>
     <?php $i++; endforeach; ?>
 </div>
