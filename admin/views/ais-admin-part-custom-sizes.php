@@ -41,7 +41,7 @@
             </tbody>
         </table>
 
-        <button id="update-form-message" class="button button-primary" type="submit" disabled>
+        <button id="update-submit" class="button button-primary" type="submit" disabled>
             <?php _e( 'Save modifications', 'advanced-image-settings' ); ?>
             <div class="ais-spinner"></div>
         </button>

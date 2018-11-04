@@ -242,6 +242,7 @@
 		removeButtons = document.getElementsByClassName('remove-button');
 
 		if (updateForm) {
+			updateSizesArgs['form'] = updateForm;
 			updateForm.addEventListener('submit', updateSizes);
 			validateElements(updateForm);
 			updateForm.addEventListener('change', enableSubmit);
@@ -251,6 +252,8 @@
 			for(var i = 0, l = removeButtons.length; i < l; i++)
 				removeButtons[i].addEventListener('click', displayRemoveModal);
 		}
+
+		console.log(updateForm);
 	}
 
 	function updateContent(content) {
