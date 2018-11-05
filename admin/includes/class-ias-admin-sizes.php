@@ -208,7 +208,7 @@ class IAS_Admin_Sizes {
 		$this->update_option();
 
 		wp_send_json_success( array(
-			'message' => __( 'Disabled', $this->plugin_name )
+			'message' => __( 'Modifications done', 'images-advanced-settings' )
 		) );
     }
 
@@ -250,7 +250,7 @@ class IAS_Admin_Sizes {
 		$this->update_option();
 
 		wp_send_json_success( array(
-			'message' => __( 'Image size added', $this->plugin_name ),
+			'message' => __( 'Image size added', 'images-advanced-settings' ),
 			'content' => $this->get_custom_sizes_view()
 		) );
     }
@@ -288,7 +288,7 @@ class IAS_Admin_Sizes {
 		$this->update_option();
 
 		wp_send_json_success( array(
-			'message' => __( 'Image sizes updated', 'images-advanced-settings' ),
+			'message' => __( 'Updates done', 'images-advanced-settings' ),
 			'content' => $this->get_custom_sizes_view()
 		) );
 	}
@@ -317,7 +317,7 @@ class IAS_Admin_Sizes {
 		if ( isset( $_POST['remove_images'] ) && $_POST['remove_images'] !== 'false' ) {
 			$ias_attachments = new IAS_Admin_Attachments();
 			$attachments_ids = $ias_attachments->get_attachments_ids( $size_name );
-			$return['attachments_ids'] = !empty( $attachments_ids ) ? $attachments_ids : __( 'No file with this size was found', 'images-advanced-settings' );
+			$return['attachments_ids'] = !empty( $attachments_ids ) ? $attachments_ids : __( 'Size removed and no file with this size was found', 'images-advanced-settings' );
 			$return['size_name'] = $size_name;
 		}
 

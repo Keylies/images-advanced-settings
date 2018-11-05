@@ -274,6 +274,7 @@
 		logsCounter = 0;
 		logs.innerHTML = '';
 		logsBar.value = logsCounter;
+		logsContainer.setAttribute('aria-hidden', false);
 	}
 
 	function addLog(logHtml) {
@@ -282,8 +283,6 @@
 		logs.innerHTML += logHtml;
 		logsStatus.textContent = logsCounter + '/' + logsBar.max;
 	}
-
-	resetLogs();
 
 /** Remove size */
 

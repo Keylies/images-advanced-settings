@@ -6,5 +6,5 @@
         <div class="ias-spinner"></div>
     </button>
 
-    <p id="regenerate-message"></p>
+    <p id="regenerate-message" class="info-message"></p>
 </section>

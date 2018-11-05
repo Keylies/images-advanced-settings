@@ -101,8 +101,8 @@ class IAS_Admin {
 	 */
 	function option_page() {
 		$this->hook = add_options_page(
-			__( 'Image settings', 'images-advanced-settings' ),
-			__( 'Image settings', 'images-advanced-settings' ),
+			__( 'Images', 'images-advanced-settings' ),
+			__( 'Images (advanced)', 'images-advanced-settings' ),
 			'manage_options',
 			'image-settings',
 			array( $this, 'page_display' )

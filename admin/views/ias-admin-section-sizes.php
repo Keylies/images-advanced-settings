@@ -1,20 +1,23 @@
 <section>
-    <p><?php _e( 'Disable default WordPress sizes', 'images-advanced-settings' ); ?></p>
+    <h3><?php _e( 'Disable default WordPress sizes', 'images-advanced-settings' ); ?></h2>
+    <p><?php _e( 'Checked sizes are not generated at image upload', 'images-advanced-settings' ); ?></p>
 
     <form id="default-form">
-        <?php foreach ( $default_sizes as $default_size ) : ?>
-            <div>
-                <input type="checkbox" id="default-sizes-<?php echo $default_size; ?>" name="default_sizes_disabled[]" value="<?php echo $default_size; ?>" <?php checked( in_array( $default_size, $this->ias_sizes->data['default_sizes_disabled'] ), true ); ?>>
-                <label for="default-sizes-<?php echo $default_size; ?>"><?php echo $default_size; ?></label>
-            </div>
-        <?php endforeach; ?>
+        <div class="default-checkboxes__container">
+            <?php foreach ( $default_sizes as $default_size ) : ?>
+                <div>
+                    <input type="checkbox" id="default-sizes-<?php echo $default_size; ?>" name="default_sizes_disabled[]" value="<?php echo $default_size; ?>" <?php checked( in_array( $default_size, $this->ias_sizes->data['default_sizes_disabled'] ), true ); ?>>
+                    <label for="default-sizes-<?php echo $default_size; ?>"><?php echo $default_size; ?></label>
+                </div>
+            <?php endforeach; ?>
+        </div>
 
         <button id="default-submit" class="button button-primary" type="submit" disabled>
             <?php _e( 'Save', 'images-advanced-settings' ); ?>
             <div class="ias-spinner"></div>
         </button>
 
-        <p id="default-message"></p>
+        <p id="default-message" class="info-message"></p>
     </form>
 </section> 
 
@@ -69,7 +72,7 @@
             <div class="ias-spinner"></div>
         </button>
 
-        <p id="add-message"></p>
+        <p id="add-message" class="info-message"></p>
     </form>
 </section>
 
@@ -83,10 +86,12 @@
 
 <div id="remove-modal" class="remove__modal" aria-hidden="true">
     <p class="modal__title"><?php _e( 'Do you really want to remove this image size ?', 'images-advanced-settings' ); ?></p>
+
     <div class="modal__input-container">
         <input type="checkbox" id="remove-images-checkbox" name="remove_images" checked>
         <label for="remove-images-checkbox"><?php _e( 'Remove generated images of this size too', 'images-advanced-settings' ); ?></label>
     </div>
+
     <div class="modal__buttons">
         <button id="cancel-remove-button" class="button modal__button"><?php _e( 'Cancel', 'images-advanced-settings' ); ?></button>
         <button id="confirm-remove-button" class="button button-primary modal__button">

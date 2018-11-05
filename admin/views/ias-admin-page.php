@@ -34,8 +34,9 @@
     <?php $i++; endforeach; ?>
 </div>
 
-<div id="logs-container">
-    <progress id="logs-bar"></progress>
-    <p id="logs-status"></p>
+<div id="logs-container" class="logs__container" aria-hidden="true">
+    <h2><?php _e( 'Logs', 'images-advanced-settings' ); ?></h2>
+    <progress id="logs-bar" class="logs__bar"></progress>
+    <p id="logs-status" class="logs__status"></p>
     <ol id="logs" class="logs"></ol>
 </div>

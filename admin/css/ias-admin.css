@@ -6,8 +6,19 @@
     margin-bottom: 0;
 }
 
+.form__error {
+    color: #a6700f;
+}
+
+.info-message {
+    font-size: 130%;
+    background-color: white;
+    text-align: center;
+}
+
 .crop-position {
     display: none;
+    margin-left: 1em;
 }
 
 .crop:checked ~ .crop-position {
@@ -17,6 +28,30 @@
 .small-text {
     margin: 0 0 1em;
 }
+
+.default-checkboxes__container {
+	max-height: 200px;
+	overflow: scroll;
+}
+
+.sizes {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+    .size {
+        background-color: white;
+        border: 1px solid #6666664d;
+        margin-right: 1em;
+        margin-bottom: 1em;
+        padding: 1em 3em;
+    }
+
+        .size__name {
+            text-align: center;
+            font-size: 130%;
+            margin-top: 0;
+        }
 
 .remove__modal {
     position: fixed;
@@ -65,13 +100,19 @@
             padding-left: 1em;
         }
 
-            .log__result--success {
-                background-color: #ccf5cc;
+            .log__result {
+                display: flex;
+                align-items: center;
             }
 
-            .log__result--failure {
-                background-color: #f5cccc;
-            }
+                .result__img {
+                    height: 20px;
+                    margin: 0 .5em;
+                }
+
+                .result__text {
+                    margin: .5em 0;
+                }
 
 .ias-spinner {
     display: none;
