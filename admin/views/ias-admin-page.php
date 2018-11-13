@@ -37,6 +37,7 @@
 <div id="logs-container" class="logs__container" aria-hidden="true">
     <h2><?php _e( 'Logs', 'images-advanced-settings' ); ?></h2>
     <progress id="logs-bar" class="logs__bar"></progress>
+    <button id="button-stop" class="button stop-button" aria-hidden="true"><?php _e( 'Stop', 'images-adva,ced-settings' ); ?></button>
     <p id="logs-status" class="logs__status"></p>
     <ol id="logs" class="logs"></ol>
 </div>

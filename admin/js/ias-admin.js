@@ -252,8 +252,6 @@
 			for(var i = 0, l = removeButtons.length; i < l; i++)
 				removeButtons[i].addEventListener('click', displayRemoveModal);
 		}
-
-		console.log(updateForm);
 	}
 
 	function updateContent(content) {
@@ -268,6 +266,8 @@
 	var logsStatus = document.getElementById('logs-status');
 	var logs = document.getElementById('logs');
 	var logsCounter = 0;
+	var buttonStop = document.getElementById('button-stop');
+	var activityContinue = false;
 
 	function resetLogs(logsLength) {
 		logsBar.max = logsLength || 0;
@@ -275,6 +275,13 @@
 		logs.innerHTML = '';
 		logsBar.value = logsCounter;
 		logsContainer.setAttribute('aria-hidden', false);
+		activityContinue = true;
+		buttonStop.setAttribute('aria-hidden', false);
+	}
+
+	function toggleStop() {
+		activityContinue = false;
+		buttonStop.setAttribute('aria-hidden', true);
 	}
 
 	function addLog(logHtml) {
@@ -283,6 +290,9 @@
 		logs.innerHTML += logHtml;
 		logsStatus.textContent = logsCounter + '/' + logsBar.max;
 	}
+
+	if (buttonStop)
+		buttonStop.addEventListener('click', toggleStop);
 
 /** Remove size */
 
@@ -322,7 +332,7 @@
 		function removeAttachmentSizeResponse(response) {
 			addLog(response.data);
 
-			if (sizeAttachments.length) {
+			if (sizeAttachments.length && activityContinue) {
 				removeAttachmentSize(sizeAttachments.shift(), sizeName);
 			}
 		}
@@ -410,7 +420,7 @@
 		function postResponse(response) {
 			addLog(response.data);
 
-			if (regenerateAttachments.length) {
+			if (regenerateAttachments.length && activityContinue) {
 				regenerateAttachment(regenerateAttachments.shift());
 			} else {
 				toggleButton(regenerateButton);
