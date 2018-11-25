@@ -7,24 +7,10 @@ if ( !class_exists( 'IAS_Admin_Sizes' ) ) :
 class IAS_Admin_Sizes {
 
 	public $data;
-    private $option_name;
     private $images_types;
 
 	function __construct() {
-		$this->option_name = 'images_advanced_settings';
 		$this->init_data();
-	}
-
-	/**
-	 * Build default structure for option
-	 *
-	 * @return array
-	 */
-	private function get_default_data() {
-		return array(
-			'default_sizes_disabled' => array(),
-			'sizes'                  => array()
-		);
 	}
 
 	/**
@@ -42,7 +28,7 @@ class IAS_Admin_Sizes {
 	}
 
 	/**
-	 * Get option data or add option with default data if not exists
+	 * Get option data
 	 *
 	 * @return void
 	 */
@@ -56,14 +42,8 @@ class IAS_Admin_Sizes {
 			)
 		);
 
-		$current_data = get_option( $this->option_name );
-
-		if ( !empty( $current_data ) ) {
-			$this->data = $current_data;
-			$this->set_image_sizes();
-		} else {
-			add_option( $this->option_name, $this->get_default_data() );
-		}
+		$this->data = get_option( Images_Advanced_Settings::$option_name );
+		$this->set_image_sizes();
 	}
 
 	/**
@@ -82,7 +62,7 @@ class IAS_Admin_Sizes {
 	 * @return void
 	 */
 	private function update_option() {
-		update_option( $this->option_name, $this->data );
+		update_option( Images_Advanced_Settings::$option_name, $this->data );
     }
 
     /**
@@ -205,7 +185,7 @@ class IAS_Admin_Sizes {
 		check_admin_referer( 'images-advanced-settings', 'nonce' );
 
 		$this->data['default_sizes_disabled'] = !isset( $_POST['default_sizes_disabled'] ) ? array() : $_POST['default_sizes_disabled'];
-		$this->update_option();
+		IAS_Admin_Helpers::update_option( $this->data );
 
 		wp_send_json_success( array(
 			'message' => __( 'Modifications done', 'images-advanced-settings' )
@@ -247,7 +227,7 @@ class IAS_Admin_Sizes {
 			wp_send_json_error( array( 'message' => $validation->get_error_messages() ) );
  
 		$this->data['sizes'][] = $this->sanitize_size( $_POST['new_size'] );
-		$this->update_option();
+		IAS_Admin_Helpers::update_option( $this->data );
 
 		wp_send_json_success( array(
 			'message' => __( 'Image size added', 'images-advanced-settings' ),
@@ -285,7 +265,7 @@ class IAS_Admin_Sizes {
 		}
 
 		$this->data['sizes'] = $formated_sizes;
-		$this->update_option();
+		IAS_Admin_Helpers::update_option( $this->data );
 
 		wp_send_json_success( array(
 			'message' => __( 'Updates done', 'images-advanced-settings' ),
@@ -307,7 +287,7 @@ class IAS_Admin_Sizes {
 		unset( $this->data['sizes'][ $_POST['index'] ] );
 
 		$this->data['sizes'] = array_values( $this->data['sizes'] );
-		$this->update_option();
+		IAS_Admin_Helpers::update_option( $this->data );
 
 		$return = array(
 			'message' => __( 'Image size deleted', 'images-advanced-settings' ),

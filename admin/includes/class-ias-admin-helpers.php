@@ -50,6 +50,15 @@ class IAS_Admin_Helpers {
 	static function get_view( $file_name ) {
 		return dirname( dirname( __FILE__ ) ) . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . $file_name . '.php';
 	}
+
+	/**
+	 * Update plugin option
+	 *
+	 * @return void
+	 */
+	static function update_option( $data ) {
+		update_option( Images_Advanced_Settings::$option_name, $data );
+    }
 }
 
 endif;

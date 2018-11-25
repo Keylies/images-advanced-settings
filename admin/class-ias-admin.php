@@ -9,6 +9,7 @@ class IAS_Admin {
 	private $hook;
 	private $ias_sizes;
 	private $ias_attachments;
+	private $ias_optimizations;
 	private $data;
 
 	function __construct() {
@@ -47,6 +48,9 @@ class IAS_Admin {
 
 		include_once 'includes/class-ias-admin-attachments.php';
 		$this->ias_attachments = new IAS_Admin_Attachments();
+
+		include_once 'includes/class-ias-admin-optimizations.php';
+		$this->ias_optimizations = new IAS_Admin_Optimizations();
 	}
 
 	/**
@@ -90,7 +94,8 @@ class IAS_Admin {
 	private function get_view_sections() {
 		return array(
 			'sizes'        => __( 'Sizes', 'images-advanced-settings' ),
-			'regeneration' => __( 'Regeneration', 'images-advanced-settings' )
+			'regeneration' => __( 'Regeneration', 'images-advanced-settings' ),
+			'optimization' => __( 'Optimization', 'images-advanced-settings' )
 		);
 	}
 
