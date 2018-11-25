@@ -10,19 +10,50 @@ class IAS_Public {
 		add_action( 'wp_enqueue_scripts', array( $this, 'scripts' ) );
 
 		add_filter( 'wp_get_attachment_image_attributes', array( $this, 'add_lazy_attributes' ) );
+		add_filter( 'the_content', array( $this, 'add_content_lazy_attributes' ) );
+	}
+
+	private function get_image_attributes() {
+		return array(
+			'src',
+			'srcset',
+			'sizes'
+		);
 	}
 
 	function add_lazy_attributes( $attr ) {
 		$attr['class'] .= ' lazy';
-		$attr['data-src'] = $attr['src'];
 
-		if ( isset( $attr['srcset'] ) )
-			$attr['data-srcset'] = $attr['srcset'];
-
-		if ( isset( $attr['sizes'] ) )
-			$attr['data-sizes'] = $attr['sizes'];
+		foreach ( $this->get_image_attributes() as $img_attr ) {
+			if ( isset( $attr[ $img_attr ] ) ) {
+				$attr[ 'data-' . $img_attr ] = $attr[ $img_attr ];
+				unset( $attr[ $img_attr ] );
+			}
+		}
 
 		return $attr;
+	}
+
+	function add_content_lazy_attributes( $content ) {
+		$content  = mb_convert_encoding( $content, 'HTML-ENTITIES', 'UTF-8' );
+		$document = new DOMDocument();
+		libxml_use_internal_errors( true );
+		$document->loadHTML( utf8_decode( $content ) );
+		$images = $document->getElementsByTagName('img');
+
+		foreach( $images as $image ) {
+			$class = $image->getAttribute( 'class' ) . ' lazy';
+			$image->setAttribute( 'class', $class );
+
+			foreach ( $this->get_image_attributes() as $img_attr ) {
+				if ( $image->hasAttribute( $img_attr ) ) {
+					$image->setAttribute( 'data-' . $img_attr, $image->getAttribute( $img_attr ) );
+					$image->removeAttribute( $img_attr );
+				}
+			}
+		}
+
+		return $document->saveHTML();
 	}
 
 	function scripts() {
