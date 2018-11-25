@@ -24,6 +24,9 @@ class Images_Advanced_Settings {
 
 		if ( is_admin() )
 			include_once 'admin/class-ias-admin.php';
+		else {
+			include_once 'public/class-ias-public.php';
+		}
 	}
 
 	function textdomain() {
