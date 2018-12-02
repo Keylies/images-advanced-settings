@@ -1,5 +1,9 @@
 [aria-hidden="true"] {
-    display: none;
+    display: none !important;
+}
+
+.wp-core-ui .button {
+    margin-top: 1em;
 }
 
 .tab {

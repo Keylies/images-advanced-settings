@@ -1,8 +1,10 @@
 === Images Advanced Settings ===
 Contributors: keylies
-Tags: images, image, attachments, attachment, settings, sizes, regenerate, regeneration
+Tags: images, image, attachments, attachment, settings, sizes, size, custom, regenerate, regeneration
+Requires PHP: 5.6.0
 Requires at least: 3.0.1
 Tested up to: 4.9.8
+Stable tag: trunk
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -18,16 +20,21 @@ This plugin add additionnal settings to manage WordPress images
 * Add and update custom sizes
 * Regenerate (completely remove and recreate) all images to remove unused sizes and create new sizes for already uploaded images
 
+== ChangeLog ==
+
+= 1.1 - 2018-12-02 =
+
+* Stop button for regeneration and deletion
+* Lazy loading
+
 = Roadmap =
 
 * Examples images to show crop positions
-* Stop button for regeneration and deletion
 * Regeneration by post type
 * Regeneration for selected images only
 * URL to add featured image
 * Default featured image for all posts
 * Image optimization
-* Lazy loading
 
 == Installation ==
 
@@ -50,3 +57,4 @@ This plugin add additionnal settings to manage WordPress images
 1. Default sizes disabling
 2. Add and update your custom sizes
 3. Regenerate your images
+4. Inject Lazy loading script

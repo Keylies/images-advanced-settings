@@ -42,16 +42,16 @@ class IAS_Admin_Attachments {
 	 * @return array
 	 */
 	private function remove_file( $file_path ) {
-		$url_path = IAS_Admin_Helpers::url_wrapper( IAS_Admin_Helpers::get_url_path( $file_path ) );
+		$url_path = IAS_Helpers::url_wrapper( IAS_Helpers::get_url_path( $file_path ) );
 		if ( !file_exists( $file_path ) )
-			return IAS_Admin_Helpers::get_result_array( false, sprintf( __( 'File does not exist and can not be removed: %s', 'images-advanced-settings' ), $url_path ) );
+			return IAS_Helpers::get_result_array( false, sprintf( __( 'File does not exist and can not be removed: %s', 'images-advanced-settings' ), $url_path ) );
 
 		wp_delete_file( $file_path );
 
 		if ( !file_exists( $file_path ) )
-			return IAS_Admin_Helpers::get_result_array( true, sprintf( __( 'File has been removed: %s', 'images-advanced-settings' ), $url_path ) );
+			return IAS_Helpers::get_result_array( true, sprintf( __( 'File has been removed: %s', 'images-advanced-settings' ), $url_path ) );
 		else
-			return IAS_Admin_Helpers::get_result_array( false, sprintf( __( 'File can not be removed due to unknown error: %s', 'images-advanced-settings' ), $url_path ) );
+			return IAS_Helpers::get_result_array( false, sprintf( __( 'File can not be removed due to unknown error: %s', 'images-advanced-settings' ), $url_path ) );
 	}
 
 	/**
@@ -77,7 +77,7 @@ class IAS_Admin_Attachments {
 		$results = array();
 
 		if ( $dir === false )
-			return IAS_Admin_Helpers::get_result_array( false, sprintf( __( 'Directory "%s" can not be opened', 'images-advanced-settings' ), $file_info['dirname'] ) );
+			return IAS_Helpers::get_result_array( false, sprintf( __( 'Directory "%s" can not be opened', 'images-advanced-settings' ), $file_info['dirname'] ) );
 
 		while ( ( $file = readdir( $dir ) ) !== false ) {
 			if ( strrpos( $file, $file_info['filename'] ) !== false )
@@ -87,7 +87,7 @@ class IAS_Admin_Attachments {
 		closedir( $dir );
 
 		if ( empty( $files ) )
-			return IAS_Admin_Helpers::get_result_array( false, sprintf( __( 'There is no file found for "%s"', 'images-advanced-settings' ), $file_info['filename'] ) );
+			return IAS_Helpers::get_result_array( false, sprintf( __( 'There is no file found for "%s"', 'images-advanced-settings' ), $file_info['filename'] ) );
 
 		foreach ( $files as $file_name ) {
 			$file_path = $file_info['dirname'] . DIRECTORY_SEPARATOR . $file_name;
@@ -111,7 +111,7 @@ class IAS_Admin_Attachments {
 		$attachment_sizes = $this->get_attachment_sizes( $attachment_id );
 
 		if ( !isset( $attachment_sizes[ $size_name ] ) )
-			return IAS_Admin_Helpers::get_result_array( false, sprintf( __( 'Size %s was not found for this file', 'images-advanced-settings' ), $size_name ) );
+			return IAS_Helpers::get_result_array( false, sprintf( __( 'Size %s was not found for this file', 'images-advanced-settings' ), $size_name ) );
 
 		$dirname = dirname( get_attached_file( $attachment_id ) );
 		$file_path = $dirname . DIRECTORY_SEPARATOR . $attachment_sizes[ $size_name ]['file'];
@@ -127,7 +127,7 @@ class IAS_Admin_Attachments {
 	 */
 	private function get_log( $result ) {
 		ob_start();
-		include IAS_Admin_Helpers::get_view('ias-admin-part-log');
+		include IAS_Helpers::get_admin_view('ias-admin-part-log');
 		return ob_get_clean();
 	}
 
@@ -200,17 +200,17 @@ class IAS_Admin_Attachments {
 	 * @return array
 	 */
 	private function regenerate( $attachment_id, $image_path, $dirname ) {
-		$url_path = IAS_Admin_Helpers::get_url_path( $dirname );
+		$url_path = IAS_Helpers::get_url_path( $dirname );
 		$meta = wp_generate_attachment_metadata( $attachment_id, $image_path );
 		$result = array();
 
 		if ( !empty( $meta['sizes'] ) ) {
 			foreach ( $meta['sizes'] as $size => $size_info ) {
 				$size_url_path = $url_path . DIRECTORY_SEPARATOR . $size_info['file'];
-				$result[] = IAS_Admin_Helpers::get_result_array( true, sprintf( __( '%s size has been generated: %s', 'images-advanced-settings' ), $size, IAS_Admin_Helpers::url_wrapper( $size_url_path ) ) );
+				$result[] = IAS_Helpers::get_result_array( true, sprintf( __( '%s size has been generated: %s', 'images-advanced-settings' ), $size, IAS_Helpers::url_wrapper( $size_url_path ) ) );
 			}
 		} else {
-			$result[] = IAS_Admin_Helpers::get_result_array( true, sprintf( __( 'There is no more regeneration to do with this attachment', 'images-advanced-settings' ) ) );
+			$result[] = IAS_Helpers::get_result_array( true, sprintf( __( 'There is no more regeneration to do with this attachment', 'images-advanced-settings' ) ) );
 		}
 
 		wp_update_attachment_metadata( $attachment_id, $meta );

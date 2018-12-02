@@ -9,6 +9,7 @@ class IAS_Admin {
 	private $hook;
 	private $ias_sizes;
 	private $ias_attachments;
+	private $ias_optimizations;
 	private $data;
 
 	function __construct() {
@@ -32,6 +33,9 @@ class IAS_Admin {
 		add_action( 'wp_ajax_ias_remove_size_file', array( $this->ias_attachments, 'remove_size_file' ) );
 		add_action( 'wp_ajax_ias_regenerate_attachment', array( $this->ias_attachments, 'regenerate_attachment' ) );
 		add_action( 'wp_ajax_ias_get_all_attachments', array( $this->ias_attachments, 'get_all_attachments' ) );
+
+		// Optimizations
+		add_action( 'wp_ajax_ias_toggle_lazy_loading', array( $this->ias_optimizations, 'toggle_lazy_loading' ) );
 	}
 
 	/**
@@ -40,13 +44,16 @@ class IAS_Admin {
 	 * @return void
 	 */
 	private function load_dependencies() {
-		include_once 'includes/class-ias-admin-helpers.php';
+		include_once dirname( plugin_dir_path( __FILE__ ) ) . '/includes/class-ias-helpers.php';
 
 		include_once 'includes/class-ias-admin-sizes.php';
 		$this->ias_sizes = new IAS_Admin_Sizes();
 
 		include_once 'includes/class-ias-admin-attachments.php';
 		$this->ias_attachments = new IAS_Admin_Attachments();
+
+		include_once 'includes/class-ias-admin-optimizations.php';
+		$this->ias_optimizations = new IAS_Admin_Optimizations();
 	}
 
 	/**
@@ -62,7 +69,8 @@ class IAS_Admin {
 			'remove'            => 'ias_remove_size',
 			'regenerate'        => 'ias_regenerate_attachment',
 			'getAllAttachments' => 'ias_get_all_attachments',
-			'removeSizeFile'    => 'ias_remove_size_file'
+			'removeSizeFile'    => 'ias_remove_size_file',
+			'lazy'              => 'ias_toggle_lazy_loading'
 		);
 	}
 
@@ -90,7 +98,8 @@ class IAS_Admin {
 	private function get_view_sections() {
 		return array(
 			'sizes'        => __( 'Sizes', 'images-advanced-settings' ),
-			'regeneration' => __( 'Regeneration', 'images-advanced-settings' )
+			'regeneration' => __( 'Regeneration', 'images-advanced-settings' ),
+			'optimization' => __( 'Optimization', 'images-advanced-settings' )
 		);
 	}
 
@@ -122,7 +131,7 @@ class IAS_Admin {
 		$default_sizes = array_diff( get_intermediate_image_sizes(), $this->ias_sizes->get_custom_sizes_names() );
 		$this->data = $this->ias_sizes->data;
 
-		include IAS_Admin_Helpers::get_view('ias-admin-page');
+		include IAS_Helpers::get_admin_view('ias-admin-page');
 	}
 
 	/**

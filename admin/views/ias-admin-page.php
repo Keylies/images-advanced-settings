@@ -29,7 +29,7 @@
         >
             <h2><?php echo $section_title; ?></h2>
 
-            <?php include IAS_Admin_Helpers::get_view('ias-admin-section-' . $section_key); ?>
+            <?php include IAS_Helpers::get_admin_view('ias-admin-section-' . $section_key); ?>
         </div>
     <?php $i++; endforeach; ?>
 </div>
@@ -37,6 +37,7 @@
 <div id="logs-container" class="logs__container" aria-hidden="true">
     <h2><?php _e( 'Logs', 'images-advanced-settings' ); ?></h2>
     <progress id="logs-bar" class="logs__bar"></progress>
+    <button id="button-stop" class="button stop-button" aria-hidden="true"><?php _e( 'Stop', 'images-adva,ced-settings' ); ?></button>
     <p id="logs-status" class="logs__status"></p>
     <ol id="logs" class="logs"></ol>
 </div>

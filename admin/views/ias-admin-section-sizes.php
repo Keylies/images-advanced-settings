@@ -80,7 +80,7 @@
     <h2><?php _e( 'Custom sizes', 'images-advanced-settings' ); ?></h2>
 
     <div id="custom-sizes">
-        <?php include IAS_Admin_Helpers::get_view('ias-admin-part-custom-sizes'); ?>
+        <?php include IAS_Helpers::get_admin_view('ias-admin-part-custom-sizes'); ?>
     </div>
 </section>
 
