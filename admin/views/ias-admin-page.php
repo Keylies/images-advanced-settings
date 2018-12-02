@@ -29,7 +29,7 @@
         >
             <h2><?php echo $section_title; ?></h2>
 
-            <?php include IAS_Admin_Helpers::get_view('ias-admin-section-' . $section_key); ?>
+            <?php include IAS_Helpers::get_admin_view('ias-admin-section-' . $section_key); ?>
         </div>
     <?php $i++; endforeach; ?>
 </div>

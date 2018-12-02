@@ -2,6 +2,10 @@
     display: none !important;
 }
 
+.wp-core-ui .button {
+    margin-top: 1em;
+}
+
 .tab {
     margin-bottom: 0;
 }

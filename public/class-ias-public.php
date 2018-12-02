@@ -6,11 +6,32 @@ if ( !class_exists( 'IAS_Public' ) ) :
 
 class IAS_Public {
 
+	private $lazy_loading;
+
 	function __construct() {
+		$this->load_dependencies();
+		$this->init_data();
+
+		if ( !$this->lazy_loading ) return;
+
 		add_action( 'wp_enqueue_scripts', array( $this, 'scripts' ) );
 
 		add_filter( 'wp_get_attachment_image_attributes', array( $this, 'add_lazy_attributes' ) );
 		add_filter( 'the_content', array( $this, 'add_content_lazy_attributes' ) );
+	}
+
+	/**
+	 * Include necessary classes
+	 *
+	 * @return void
+	 */
+	private function load_dependencies() {
+		include_once dirname( plugin_dir_path( __FILE__ ) ) . '/includes/class-ias-helpers.php';
+	}
+
+	private function init_data() {
+		$data = IAS_Helpers::get_option();
+		$this->lazy_loading = $data['lazy_loading'];
 	}
 
 	private function get_image_attributes() {

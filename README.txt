@@ -22,9 +22,10 @@ This plugin add additionnal settings to manage WordPress images
 
 == ChangeLog ==
 
-= 1.1 - 2018-11-11 =
+= 1.1 - 2018-12-02 =
 
 * Stop button for regeneration and deletion
+* Lazy loading
 
 = Roadmap =
 
@@ -34,7 +35,6 @@ This plugin add additionnal settings to manage WordPress images
 * URL to add featured image
 * Default featured image for all posts
 * Image optimization
-* Lazy loading
 
 == Installation ==
 
@@ -57,3 +57,4 @@ This plugin add additionnal settings to manage WordPress images
 1. Default sizes disabling
 2. Add and update your custom sizes
 3. Regenerate your images
+4. Inject Lazy loading script

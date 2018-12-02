@@ -2,9 +2,9 @@
 
 if( !defined( 'ABSPATH' ) ) exit;
 
-if ( !class_exists( 'IAS_Admin_Helpers' ) ) :
+if ( !class_exists( 'IAS_Helpers' ) ) :
 
-class IAS_Admin_Helpers {
+class IAS_Helpers {
 
     /**
 	 * Format response for ajax requests
@@ -47,8 +47,17 @@ class IAS_Admin_Helpers {
      * @param string $file_name File name
 	 * @return string
 	 */
-	static function get_view( $file_name ) {
-		return dirname( dirname( __FILE__ ) ) . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . $file_name . '.php';
+	static function get_admin_view( $file_name ) {
+		return dirname( plugin_dir_path( __FILE__ ) ) . DIRECTORY_SEPARATOR . 'admin' . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . $file_name . '.php';
+	}
+
+	/**
+	 * Get plugin option
+	 *
+	 * @return void
+	 */
+	static function get_option() {
+		return get_option( Images_Advanced_Settings::$option_name );
 	}
 
 	/**
@@ -58,7 +67,7 @@ class IAS_Admin_Helpers {
 	 */
 	static function update_option( $data ) {
 		update_option( Images_Advanced_Settings::$option_name, $data );
-    }
+	}
 }
 
 endif;

@@ -42,7 +42,7 @@ class IAS_Admin_Sizes {
 			)
 		);
 
-		$this->data = get_option( Images_Advanced_Settings::$option_name );
+		$this->data = IAS_Helpers::get_option();
 		$this->set_image_sizes();
 	}
 
@@ -74,7 +74,7 @@ class IAS_Admin_Sizes {
 		ob_start();
 		$crop_positions = $this->get_crop_positions();
 
-		include IAS_Admin_Helpers::get_view('ias-admin-part-custom-sizes');
+		include IAS_Helpers::get_admin_view('ias-admin-part-custom-sizes');
 
 		return ob_get_clean();
     }
@@ -185,7 +185,7 @@ class IAS_Admin_Sizes {
 		check_admin_referer( 'images-advanced-settings', 'nonce' );
 
 		$this->data['default_sizes_disabled'] = !isset( $_POST['default_sizes_disabled'] ) ? array() : $_POST['default_sizes_disabled'];
-		IAS_Admin_Helpers::update_option( $this->data );
+		IAS_Helpers::update_option( $this->data );
 
 		wp_send_json_success( array(
 			'message' => __( 'Modifications done', 'images-advanced-settings' )
@@ -227,7 +227,7 @@ class IAS_Admin_Sizes {
 			wp_send_json_error( array( 'message' => $validation->get_error_messages() ) );
  
 		$this->data['sizes'][] = $this->sanitize_size( $_POST['new_size'] );
-		IAS_Admin_Helpers::update_option( $this->data );
+		IAS_Helpers::update_option( $this->data );
 
 		wp_send_json_success( array(
 			'message' => __( 'Image size added', 'images-advanced-settings' ),
@@ -265,7 +265,7 @@ class IAS_Admin_Sizes {
 		}
 
 		$this->data['sizes'] = $formated_sizes;
-		IAS_Admin_Helpers::update_option( $this->data );
+		IAS_Helpers::update_option( $this->data );
 
 		wp_send_json_success( array(
 			'message' => __( 'Updates done', 'images-advanced-settings' ),
@@ -287,7 +287,7 @@ class IAS_Admin_Sizes {
 		unset( $this->data['sizes'][ $_POST['index'] ] );
 
 		$this->data['sizes'] = array_values( $this->data['sizes'] );
-		IAS_Admin_Helpers::update_option( $this->data );
+		IAS_Helpers::update_option( $this->data );
 
 		$return = array(
 			'message' => __( 'Image size deleted', 'images-advanced-settings' ),

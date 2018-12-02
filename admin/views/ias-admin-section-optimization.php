@@ -1,6 +1,6 @@
 <section>
     <h3><?php _e( 'Lazy loading', 'images-advanced-settings' ); ?></h3>
-    <p><?php _e( 'Apply LazyLoad script to load images when they enter the viewport.', 'images-advanced-settings' ); ?></p>
+    <p><?php printf( __( 'Apply %s script to load images when they enter the viewport.', 'images-advanced-settings' ), '<a href="https://github.com/verlok/lazyload" target="_blank" rel="noopener">LazyLoad</a>' ); ?></p>
 
     <form id="lazy-form">
         <div>

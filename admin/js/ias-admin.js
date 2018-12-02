@@ -430,4 +430,29 @@
 
 	if (regenerateButton)
 		regenerateButton.addEventListener('click', getAllAttachments);
+
+/** Lazyloading */
+
+	var lazyForm = document.getElementById('lazy-form');
+	var lazyButton = document.getElementById('lazy-button');
+	var lazyArgs = {
+		'form' : lazyForm,
+		'messageContainer' : 'lazy',
+		'action' : IAS.actions.lazy,
+		'nonce' : IAS.nonce
+	};
+
+	function toggleLazyLoading(e) {
+		e.preventDefault();
+		toggleButton(lazyButton);
+		post(lazyArgs, toggleLazyLoadingResponse, true);
+
+		function toggleLazyLoadingResponse(response) {
+			setMessage(lazyArgs['messageContainer'], response.data);
+			toggleButton(lazyButton);
+		}
+	}
+
+	if (lazyButton)
+		lazyButton.addEventListener('click', toggleLazyLoading);
 })();
