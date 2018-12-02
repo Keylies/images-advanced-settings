@@ -47,11 +47,27 @@ class Images_Advanced_Settings {
 	}
 
 	/**
-	 * Add option with default data if not exists
+	 * Add or update option with default data if not exists
 	 */
 	private function init_option() {
-		if ( empty( get_option( self::$option_name ) ) )
+		$option = get_option( self::$option_name );
+
+		if ( empty( $option ) ) {
 			add_option( self::$option_name, $this->get_default_data() );
+			return;
+		}
+
+		$updated_option = true;
+
+		foreach ( $this->get_default_data() as $key => $value ) {
+			if ( !isset( $option[ $key ] ) ) {
+				$option[ $key ] = $value;
+				$updated_option = false;
+			}
+		}
+
+		if ( !$updated_option )
+			update_option( self::$option_name, $option );
 	}
 
 	function textdomain() {
