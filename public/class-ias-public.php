@@ -56,6 +56,9 @@ class IAS_Public {
 	}
 
 	function add_content_lazy_attributes( $content ) {
+		if ( empty( $content ) )
+			return $content;
+
 		$content  = mb_convert_encoding( $content, 'HTML-ENTITIES', 'UTF-8' );
 		$document = new DOMDocument();
 		libxml_use_internal_errors( true );
