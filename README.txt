@@ -3,7 +3,7 @@ Contributors: keylies
 Tags: images, image, attachments, attachment, settings, sizes, size, custom, regenerate, regeneration, optimization, lazy-loading
 Requires PHP: 5.6.0
 Requires at least: 3.0.1
-Tested up to: 4.9.8
+Tested up to: 5.0
 Stable tag: trunk
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -22,6 +22,10 @@ This plugin add additionnal settings to manage WordPress images
 * Lazy load images for speed performance
 
 == ChangeLog ==
+
+= 1.1.1 - 2018-12-16 =
+
+* Bug fix when content is empty on front
 
 = 1.1 - 2018-12-02 =
 

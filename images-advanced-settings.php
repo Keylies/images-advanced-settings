@@ -2,7 +2,7 @@
 /*
 Plugin Name: Images Advanced Settings
 Description: Additional settings for images as custom sizes or regeneration.
-Version: 1.1.0
+Version: 1.1.1
 Author: Clément Leboucher
 Author URI: https://github.com/keylies
 Text Domain: images-advanced-settings
@@ -19,7 +19,7 @@ class Images_Advanced_Settings {
 	public static $option_name;
 
 	function __construct() {
-		self::$version = '1.1.0';
+		self::$version = '1.1.1';
 		self::$option_name = 'images_advanced_settings';
 
 		add_action( 'plugins_loaded', array( $this, 'textdomain' ) );
